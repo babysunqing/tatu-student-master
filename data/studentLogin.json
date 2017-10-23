@@ -1,0 +1,27 @@
+{
+	"code":0,
+	"errmsg":"ok",
+	"data":{
+		"studentInfo":{
+			"headurl":"http://img5.imgtn.bdimg.com/it/u=1223006226,4112883699&fm=27&gp=0.jpg",
+			"name":"林思雨",
+			"sex":"female",
+			"contactName":"林思雨妈妈",
+			"tel":"15016500173",
+			"grade":5,
+			"subject":"语文 数学 化学 ",
+			"classType":"2",
+			"userId":"111",
+			"evaAveOneS":5,
+			"evaAveTwoS":4,
+			"evaAveThreeS":4.5,
+			"evaAveFourS":3.5,
+			"userId":"000",
+			"studentId": "001"
+		},
+		"period":"15",
+		"teacherNum":"2"
+	}
+}
+
+

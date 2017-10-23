@@ -1,0 +1,34 @@
+{
+	"code":0,
+	"errmsg":"ok",
+	"data":{
+		"teachers": [
+			{
+				"headurl":"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2194076889,1976492768&fm=27&gp=0.jpg",
+				"teacherId":1,
+				"name":"李明涛",
+				"collegeName":"清华大学",
+				"subject":"数学",
+				"classType":"教学课",
+				"evaluate":4.6
+			},
+			{
+				"headurl":"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2888620078,2787244361&fm=27&gp=0.jpg",
+				"teacherId":2,
+				"name":"李明",
+				"collegeName":"北京大学",
+				"subject":"英语",
+				"classType":"辅导课",
+				"evaluate":4.2
+			}
+		],
+		"banner":[
+			"http://img5.imgtn.bdimg.com/it/u=1911733753,2183981152&fm=27&gp=0.jpg",
+			"http://img1.imgtn.bdimg.com/it/u=2652673733,3636874830&fm=27&gp=0.jpg",
+			"http://img1.imgtn.bdimg.com/it/u=2897825561,2296659336&fm=27&gp=0.jpg"
+		]	
+	}
+}
+
+
+

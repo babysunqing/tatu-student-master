@@ -1,0 +1,32 @@
+{
+	"code":0,
+	"errmsg":"ok",
+	"data":{
+		"suggestions":[
+			{
+				"suggestionId":"1",
+				"suggestionContent":"我建议平台可以开设舞蹈、音乐、吉他、美术课程。",
+				"createTime":1293072805,
+				"status":"dealing",
+				"type":"建议",
+				"handleSuggestion":"您的建议管理员正在处理中，我们将仔细考虑您的建议。"
+			},
+			{
+				"suggestionId":"2",
+				"suggestionContent":"我想换老师，我觉得现在的老师不合适。讲课风格我不喜欢，语音语速很快。",
+				"createTime":1177824835,
+				"status":"close",
+				"type":"申诉",
+				"handleSuggestion":"您的投诉管理员已处理，投诉情况属实。将为您重新匹配教师。"
+			},
+			{
+				"suggestionId":"3",
+				"suggestionContent":"我想换老师，这个老师的教学风格我不喜欢，普通话不标准。",
+				"createTime":1293072805,
+				"status":"init",
+				"type":"申诉",
+				"handleSuggestion":""
+			}
+		]
+	}
+}

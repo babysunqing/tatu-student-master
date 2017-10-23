@@ -1,0 +1,21 @@
+{
+	"code":0,
+	"errmsg":"ok",
+	"data":[
+		{
+		 "name":"美国",
+		 "userId":"111",
+		 "position":"美国"
+		},
+		{
+		 "name":"深大隔壁",
+		 "userId":"222",
+		 "position":"美国"
+		},
+		{
+		 "name":"白石洲幼儿园",
+		 "userId":"333",
+		 "position":"白石洲"
+		}
+	]
+}
