@@ -24,11 +24,11 @@
 
 			<li>
 				<span>监护人姓名:</span>
-				<input type="number" name="age"  v-model='form.contactName'  placeholder="请输入监护人姓名" />
+				<input type="text" name="contactName"  v-model='form.contactName'  placeholder="请输入监护人姓名" />
 			</li>
 			<li>
 				<span>联系方式:</span>
-				<input v-validate="'required|tel'" style="float:left;line-height:.86rem;width:40%;" type="tel" name="tel" v-model='form.tel' placeholder="请输入手机号" />
+				<input style="float:left;line-height:.86rem;width:40%;" type="tel" name="tel" v-model='form.tel' placeholder="请输入手机号" />
         <p id="yzBtn" @click="getCode()">获取验证码</p>
 			</li>
 		    <li>
@@ -48,7 +48,7 @@
 		   			{{item}}
 		   			<h6 class="el-icon-circle-cross" @click="deleteGrade(index)"></h6>
 		   		</div>
-				<input id="grade" placeholder="请选择就读年级" readonly="readonly" @click="clickGrade()" />
+				<input id="grade"  type="text" placeholder="请选择就读年级" v-model='form.grade' readonly="readonly" @click="clickGrade()" />
 	   			<mt-popup v-model="popup" position="bottom">
 	       		    <div class="cancel" @click="cancelGrade()">取消</div>
 	        		<div class="addTime" @click="submitGrade()">确定</div>
@@ -435,25 +435,22 @@ export default {
       })     
     },
     classTypeChecked: function(){   	
-    	if(this.form.classType === 1){   		
-    		document.getElementById('fudao').checked = 'checked'
-    	}else if(this.form.classType === 2){
-    		document.getElementById('jiaoxue').checked = 'checked'
-    	}else if(this.form.classType === 3){
-    		document.getElementById('fudao').checked = 'checked'
-    		document.getElementById('jiaoxue').checked = 'checked'
-    	}
+    	
     }
   },
   // --------------------页面加载时,获取上课地点------------------------//
   created () {
   	let self = this
-    debugger
   	let info = this.$route.params.info
-    this.form = JSON.parse(info)
-
-    if(this.form.sex === 'female') this.form.sex = '女'
-    else this.form.sex = '男'
+    this.form = JSON.parse(info) 
+    //就读年级
+    if(this.form.grade === 1){
+      this.form.grade = '小学 一年级'
+    }else if(this.form.grade === 2){
+      this.form.grade = '小学 二年级'
+    }else if(this.form.grade === 5){
+      this.form.grade = '小学 五年级'
+    }
   	axios.get('/tatuweb/getBackgroundInfo').then(function (response) {
       	self.positionInfos = response.data.data
       	var positions=new Array()
@@ -470,11 +467,29 @@ export default {
   mounted () {
     let self = this
     // self.turnToTimeList()
-      // 年龄显示
-      // 初始化教学年级
-  	this.classTypeChecked()
-  	// 初始化 课程信息、有空时间、上课地点
-  	this.SubjectJsons = JSON.parse(sessionStorage.getItem('subject'))
+    if(this.form.sex === 'female') {
+      this.form.sex = '女'
+    }else {
+      this.form.sex = '男'
+    }    
+    // 课程类型
+    if(this.form.classType === '1'){      
+      document.getElementById('fudao').checked = 'checked'
+    }else if(this.form.classType === '2'){
+      document.getElementById('jiaoxue').checked = 'checked'
+    }else if(this.form.classType === '3'){
+      document.getElementById('fudao').checked = 'checked'
+      document.getElementById('jiaoxue').checked = 'checked'
+    }   
+  	var items = this.form.subject.split(' ')
+    for (var i = 0; i < items.length; i++) {
+      if(items[i] === '语文') this.SubjectJsons.chn = true
+      else if(items[i] === '数学') this.SubjectJsons.math = true
+      else if(items[i] === '英语') this.SubjectJsons.english = true
+      else if(items[i] === '化学') this.SubjectJsons.chemistry = true
+      else if(items[i] === '物理') this.SubjectJsons.physical = true  
+    }
+  	// 初始化 课程信息、有空时间、上课地点  	
 	  this.timeList = JSON.parse(sessionStorage.getItem('timeList'))
 	  this.slots[1].values[1] = sessionStorage.getItem('position')
 	  this.userInputPostion = sessionStorage.getItem('position')
@@ -492,7 +507,6 @@ export default {
     sessionStorage.setItem("timeList",JSON.stringify(this.timeList))
     sessionStorage.setItem("position",this.userInputPostion === '' ? '拉动选择上课地点' :
     	this.userInputPostion)
-    sessionStorage.setItem("subject",JSON.stringify(this.SubjectJsons))
     sessionStorage.setItem("stuGradeValue",JSON.stringify(this.stuGradeValue))
   }
 }

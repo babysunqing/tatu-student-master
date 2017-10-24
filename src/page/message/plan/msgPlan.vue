@@ -1,9 +1,8 @@
 <template>
 <div class="container" v-title="'教学计划'">
-<div v-for="(item,index) in plan">    
+<div v-for="item in plan">    
 	<!-- <div class="time"><span>11:09</span></div> -->
-	
-	<router-link :to="{name: 'planDetail', params: {index: index}}">
+	<router-link :to="{name: 'planDetail', params: {item: item}}">
 		<div class="main">
 			<div class="top">
 				<img src="../../../assets/icon_matching.png" alt="img">
@@ -41,11 +40,18 @@ export default {
   },
   created () {
     let self = this
-    self.index = self.GetQueryString('index')
     this.teacherId = sessionStorage.getItem('teacherId')
     this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
-      // debugger
       this.plan = response.body.data.courseInfos
+      if(this.plan.length > 0){
+      	for(var i=0;i < this.plan.length;i++){
+          if(this.plan[i].teacherInfo.classType === '1'){
+            this.plan[i].teacherInfo.classType = '辅导课'
+          }else if(this.plan[i].teacherInfo.classType === '2'){
+            this.plan[i].teacherInfo.classType = '教学课'
+          }
+      	}
+      }
     })
   }
 }

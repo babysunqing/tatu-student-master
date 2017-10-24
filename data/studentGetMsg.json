@@ -115,7 +115,9 @@
 					"price":"200",
 					"payClass":"20",
 					"totalPeriod":"10",
-					"createTime":1177824835
+					"startTime":1508833800,
+					"endTime":1508830200,
+					"userId":"222"
 				},
 				"teacherInfo":{
 					"headurl":"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2194076889,1976492768&fm=27&gp=0.jpg",

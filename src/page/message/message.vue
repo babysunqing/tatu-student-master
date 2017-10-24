@@ -1,7 +1,7 @@
 <template>
 <div class="container" v-title="'TaTu课堂'">
 
-  <div class="msg-item" v-bind:class="{ display: isdisplay1, 'normal': normal }" >
+  <div class="msg-item" v-bind:class="{ 'display': isdisplay1, 'normal': normal }" >
     <router-link to="/msgMatching">
       <img src="../../assets/icon_matching.png">
       <div class="msg-content">
@@ -17,7 +17,7 @@
     </router-link>
   </div>
 
-  <div class="msg-item" v-bind:class="{ display: isdisplay2, 'normal': normal }" >
+  <div class="msg-item" v-bind:class="{ 'display': isdisplay2, 'normal': normal }" >
     <router-link to="/suggestion">
       <img src="../../assets/icon_complaints.png">
       <div class="msg-content">
@@ -27,7 +27,7 @@
     </router-link>
   </div>
 
-  <div class="msg-item" v-bind:class="{ display: isdisplay3, 'normal': normal }" >
+  <div class="msg-item" v-bind:class="{ 'display': isdisplay3, 'normal': normal }" >
     <router-link to="/msgPay">
       <img src="../../assets/icon_pay.png">
       <div class="msg-content">
@@ -37,7 +37,7 @@
     </router-link>
   </div>
   
-  <div class="msg-item" v-bind:class="{ display: isdisplay4, 'normal': normal }" >
+  <div class="msg-item" v-bind:class="{ 'display': isdisplay4, 'normal': normal }" >
     <router-link to="/msgPlan">
       <img src="../../assets/icon_plan.png">
       <div class="msg-content">
@@ -70,11 +70,11 @@ export default {
   },
   data () {
     return {
-      isdisplay1:false,
-      isdisplay2:false,
-      isdisplay3:false,
-      isdisplay4:false,
-      normal:true,
+      isdisplay1:true,
+      isdisplay2:true,
+      isdisplay3:true,
+      isdisplay4:true,
+      normal: false,
       match: [],
       suggestion:[],
       plan:[],
@@ -85,25 +85,33 @@ export default {
     let self = this
     this.studentId = sessionStorage.getItem('studentId')
     axios.get('/tatuweb/studentGetMsg?studentId=' + self.studentId).then(function (res) {
-      // debugger
-      this.match = res.data.data.courseInfos
-      this.suggestion = res.data.data.courseInfos
-      this.plan = res.data.data.courseInfos
-      this.needPayments = res.data.data.needPayments
-      if(this.match.length === 0){ //如果付费消息数组长度为0 ，则隐藏这一栏
-        this.isdisplay1 = true
+      self.match = res.data.data.courseInfos
+      self.suggestion = res.data.data.complainFeedbacks
+      self.plan = res.data.data.courseInfos
+      self.needPayments = res.data.data.needPayments
+      if(self.match.length > 0){ //如果付费消息数组长度大于0 ，则显示这一栏
+        self.isdisplay1 = false
+        self.normal = true
       }else{
-        this.match = response.body.data.courseInfos[0]
+        self.match = res.data.data.courseInfos[0]
       }
-      if(this.suggestion.length === 0){
-        this.isdisplay2 = true
+      if(self.suggestion.length > 0){
+        self.isdisplay2 = false
+        self.normal = true
       }else{
-        this.suggestion = response.body.data.courseInfos[0]
+        self.suggestion = res.data.data.complainFeedbacks[0]
       }
-      if(this.needPayments.length === 0){
-        this.isdisplay3 = true
+      if(self.needPayments.length > 0){
+        self.isdisplay3 = false
+        self.normal = true
       }else{
-        this.needPayments = response.body.data.needPayments[0]
+        self.needPayments = res.data.data.needPayments[0]
+      }
+      if(self.plan.length > 0){
+        self.isdisplay4 = false
+        self.normal = true
+      }else{
+        self.plan = res.data.data.courseInfos[0]
       }
     })
   },
@@ -169,5 +177,12 @@ export default {
   color: #fff;
   text-align: center;
   line-height: .34rem;
+}
+.normal{
+  overflow: auto;
+}
+.display{
+  display: none;
+  overflow: auto;
 }
 </style>

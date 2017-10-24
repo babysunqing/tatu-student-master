@@ -4,17 +4,17 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ plan.teacherInfo.name }} ·</h1>
-				<h2>{{  plan.teacherInfo.classType }} · </h2>
-				<h2>{{ plan.teacherInfo.subject }}</h2>
+				<h1>{{ item.teacherInfo.name }} ·</h1>
+				<h2>{{  item.teacherInfo.classType }} · </h2>
+				<h2>{{ item.teacherInfo.subject }}</h2>
 			</div>			
 			<div class="time">
-			<p>就读院校：{{ plan.teacherInfo.collegeName }}</p>
+			<p>就读院校：{{ item.teacherInfo.collegeName }}</p>
 			</div>
-			<div class="place"><p>擅长科目：{{ plan.teacherInfo.subject }}</p></div>
+			<div class="place"><p>擅长科目：{{ item.teacherInfo.subject }}</p></div>
 			<div class="progress">
 				<el-progress
-				:percentage="plan.courseInfo.totalPeriod*100/plan.courseInfo.payClass" 
+				:percentage="item.courseInfo.totalPeriod*100/item.courseInfo.payClass" 
 				status="success" 
 				:show-text="false"
 				:stroke-width="4"
@@ -22,8 +22,8 @@
 			</div>
 		</div>
 		<div class="top-right">
-			<img :src="plan.teacherInfo.headurl">
-			<div class="num">{{ plan.courseInfo.totalPeriod }}/{{ plan.courseInfo.payClass }}次课</div>
+			<img :src="item.teacherInfo.headurl">
+			<div class="num">{{ item.courseInfo.totalPeriod }}/{{ item.courseInfo.payClass }}次课</div>
 		</div>		
 	</div>
 	<div class="clear"></div>
@@ -34,34 +34,20 @@
 			<h1>教学计划</h1>
 		</div>
 		 <div class="plandetail"> 
-			<p>{{ plan.courseInfo.content}}</p>
+			<p>{{ item.courseInfo.content}}</p>
 		</div>
 	</div>
 </div>
 </template>
 
 <script>
-import staritem from '../../../components/staritem.vue'
-
 export default {
   name: 'matchTeacherDetail',
-  components: {
-    staritem
-  },
   data () {
-    return {
-      percentage: 0,
-      plan: []
-    }
+    return {}
   },
   created () {
-    let self = this
-    this.index = this.$route.params.index
-    this.teacherId = sessionStorage.getItem('teacherId')
-    this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
-      // debugger
-      this.plan = response.body.data.courseInfos[self.index]
-    })
+    this.item = this.$route.params.item
   }
 }
 </script> 

@@ -1,8 +1,8 @@
 <template>
 <div class="container" v-title="'匹配消息'">
-<div v-for="(item,index) in match">    
+<div v-for="item in match">    
 	<!-- <div class="time"><span>{{ item.courseInfo.time }}</span></div> -->
-	<router-link :to="{name: 'matchTeacherDetail', params: {index: index}}">
+	<router-link :to="{name: 'matchTeacherDetail', params: {item: item}}">
 		<div class="main">
 			<div class="top">
 				<img src="../../../assets/icon_matching.png" alt="img">
@@ -41,13 +41,16 @@ export default {
     let self = this
     this.teacherId = sessionStorage.getItem('teacherId')
     this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
-      // debugger
       this.match = response.body.data.courseInfos
-      // for (var i = 0; i <= this.match.length; i++) {
-      //   var time = this.match[i].courseInfo.createTime
-      //   time = new Date(parseInt(time) * 1000).toLocaleDateString()
-      //   this.match[i].courseInfo.time = time
-      // }
+      if(this.match.length > 0){
+      	for(var i=0;i < this.match.length;i++){
+          if(this.match[i].teacherInfo.classType === '1'){
+            this.match[i].teacherInfo.classType = '辅导课'
+          }else if(this.match[i].teacherInfo.classType === '2'){
+            this.match[i].teacherInfo.classType = '教学课'
+          }
+      	}
+      }
     })
   }
 }

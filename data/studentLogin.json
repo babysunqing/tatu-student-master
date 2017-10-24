@@ -6,6 +6,7 @@
 			"headurl":"http://img5.imgtn.bdimg.com/it/u=1223006226,4112883699&fm=27&gp=0.jpg",
 			"name":"林思雨",
 			"sex":"female",
+			"age":12,
 			"contactName":"林思雨妈妈",
 			"tel":"15016500173",
 			"grade":5,
@@ -17,7 +18,9 @@
 			"evaAveThreeS":4.5,
 			"evaAveFourS":3.5,
 			"userId":"000",
-			"studentId": "001"
+			"studentId": "001",
+			"goal":"学习目标！！！！！！！！！！",
+			"studyPlan":"学习计划！！！！！！！！！！！！！"
 		},
 		"period":"15",
 		"teacherNum":"2"

@@ -4,9 +4,8 @@
     <img src="../../../assets/noTeachers.png">
     <p>暂无老师</p>
   </div>
-  <div class="item"  v-for="(item,index) in classes">
-  
-    <router-link  :to="'/teacherDetail?index=' + index">
+  <div class="item"  v-for="(item,index) in classes"> 
+    <router-link  :to="{name: 'teacherDetail', params: {item: item}}">
       <img :src="item.teacherInfo.headurl">
       <div style="float:left width：100%">
         <div class="top" style="text-align:left">
@@ -46,11 +45,17 @@ export default {
     let self = this
     this.teacherId = sessionStorage.getItem('studentId')
     this.$http.get('/tatuweb/studentClassesInfo?studentId=' + self.studentId).then((response) => {
-      // debugger
       this.classes = response.body.data
-      if (this.classes != "") {
-          this.isDisplay = true
-          this.normal = false // 判断是否隐藏背景图片
+      if (this.classes.length > 0) {
+        this.isDisplay = true
+        this.normal = false // 判断是否隐藏背景图片
+        for(var i = 0; i < this.classes.length; i++){
+          if(this.classes[i].courseInfo.classType === '1'){
+            this.classes[i].courseInfo.classType = '辅导课'
+          }else{
+            this.classes[i].courseInfo.classType = '教学课'
+          }
+        }
       }
     })
   }

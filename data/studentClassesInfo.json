@@ -31,7 +31,7 @@
 				"courseInfo":{
 					"teacherId":1,
 					"subject":"英语",
-					"classType":"2课",
+					"classType":"2",
 					"content":"教学计划",
 					"timeOfDay":"2017-09-20",
 					"payClass":"10",

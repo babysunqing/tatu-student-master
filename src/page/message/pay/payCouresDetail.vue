@@ -4,17 +4,20 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ pay.teacherInfo.name }}·</h1>
-				<h2>{{ pay.teacherInfo.classType }} · </h2>
-				<h2>{{ pay.teacherInfo.subject }}</h2>
+				<h1>{{ item.teacherInfo.name }}·</h1>
+				<h2>{{ item.courseInfo.classType }}·</h2>
+				<h2>{{ item.courseInfo.subject }}</h2>
 			</div>			
 			<div class="time">
-			<p>上课时间：2017</p>
+				<p>上课时间：{{item.courseInfo.day}}</p>
 			</div>
-			<div class="place"><p>上课地点：科技园校区</p></div>
+			<div class="place">
+				<p>{{ startTime }} ~ {{ endTime }}</p>
+			</div>
+			<div class="place"><p>上课地点：{{ item.courseInfo.userId }}</p></div>
 			<div class="progress">
 				<el-progress
-				:percentage="pay.courseInfo.totalPeriod*100/pay.courseInfo.payClass" 
+				:percentage="item.courseInfo.totalPeriod*100/item.courseInfo.payClass" 
 				status="success" 
 				:show-text="false"
 				:stroke-width="4"
@@ -22,8 +25,8 @@
 			</div>
 		</div>
 		<div class="top-right">
-			<img :src="pay.teacherInfo.headurl">
-			<div class="num">{{ pay.courseInfo.totalPeriod }}/{{ pay.courseInfo.payClass }}次课</div>
+			<img :src="item.teacherInfo.headurl">
+			<div class="num">{{ item.courseInfo.totalPeriod }}/{{ item.courseInfo.payClass }}次课</div>
 		</div>		
 	</div>
 	<div class="clear"></div>
@@ -35,23 +38,23 @@
 	<div class="star">
 		<div class="item">
 			<p>课堂亲和力：</p>
-			<el-rate class="rate" v-model="value1" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveOne" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学态度：</p>
-			<el-rate class="rate" v-model="value2" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveTwo" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学质量：</p>
-			<el-rate class="rate" v-model="value3" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveThree" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>语音语速：</p>
-			<el-rate class="rate" v-model="value4" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveFour" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>准时程度：</p>
-			<el-rate class="rate" v-model="value5" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveFive" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 	</div>
 
@@ -62,7 +65,7 @@
 			<h1>教学计划</h1>
 		</div>
 		 <div class="plandetail"> 
-			<p>{{ pay.courseInfo.content}}</p>
+			<p>{{ item.courseInfo.content}}</p>
 		</div>
 	</div>
 </div>
@@ -73,35 +76,20 @@ export default {
   name: 'payCouresDetail',
   data () {
     return {
-      value1: '',
-      value2: '',
-      value3: '',
-      value4: '',
-      value5: '',
-      stuValue1: '',
-      stuValue2: '',
-      stuValue3: '',
-      stuValue4: '',
-      pay: []
     }
   },
   created () {
-    let self = this
-    this.index = this.$route.params.index
-    this.studentId = sessionStorage.getItem('studentId')
-    this.$http.get('/tatuweb/studentGetMsg?studentId=' + self.studentId).then((response) => {
-      // debugger
-      this.pay = response.body.data.needPayments[self.index]
-      this.value1 = response.body.data.needPayments[self.index].teacherInfo.evaAveOne
-      this.value2 = response.body.data.needPayments[self.index].teacherInfo.evaAveTwo
-      this.value3 = response.body.data.needPayments[self.index].teacherInfo.evaAveThree
-      this.value4 = response.body.data.needPayments[self.index].teacherInfo.evaAveFour
-      this.value5 = response.body.data.needPayments[self.index].teacherInfo.evaAveFive
-      this.stuValue1 = response.body.data.needPayments[self.index].teacherInfo.evaAveOne
-      this.stuValue2 = response.body.data.needPayments[self.index].teacherInfo.evaAveTwo
-      this.stuValue3 = response.body.data.needPayments[self.index].teacherInfo.evaAveThree
-      this.stuValue4 = response.body.data.needPayments[self.index].teacherInfo.evaAveFour
-    })
+    this.item = this.$route.params.item
+    var startTime = this.item.courseInfo.startTime
+    var endTime = this.item.courseInfo.endTime 
+
+    this.item.courseInfo.day = new Date(parseInt(startTime) * 1000).toLocaleDateString()
+
+    this.startTime = new Date(parseInt(startTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+    this.startTime = this.startTime.substr(0,this.startTime.length-3)
+
+    this.endTime = new Date(parseInt(endTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+    this.endTime = this.endTime.substr(0,this.endTime.length-3)
   }
 }
 </script> 

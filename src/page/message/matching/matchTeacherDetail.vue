@@ -4,14 +4,14 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ match.teacherInfo.name }} ·</h1>
-				<h2>{{  match.teacherInfo.classType }} · </h2>
-				<h2>{{ match.teacherInfo.subject }}</h2>
+				<h1>{{ item.teacherInfo.name }} ·</h1>
+				<h2>{{  item.teacherInfo.classType }} · </h2>
+				<h2>{{ item.teacherInfo.subject }}</h2>
 			</div>			
 			<div class="time">
-			<p>就读院校：{{ match.teacherInfo.collegeName }}</p>
+			<p>就读院校：{{ item.teacherInfo.collegeName }}</p>
 			</div>
-			<div class="place"><p>擅长科目：{{ match.teacherInfo.subject }}</p></div>
+			<div class="place"><p>擅长科目：{{ item.teacherInfo.subject }}</p></div>
 			<div class="progress">
 				<el-progress
 				:percentage="percentage" 
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="top-right">
-			<img :src="match.teacherInfo.headurl">
+			<img :src="item.teacherInfo.headurl">
 			<div class="num">试课</div>
 		</div>		
 	</div>
@@ -35,23 +35,23 @@
 	<div class="star">
 		<div class="item">
 			<p>课堂亲和力：</p>
-			<el-rate class="rate" v-model="value1" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveOne" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学态度：</p>
-			<el-rate class="rate" v-model="value2" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveTwo" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学质量：</p>
-			<el-rate class="rate" v-model="value3" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveThree" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>语音语速：</p>
-			<el-rate class="rate" v-model="value4" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveFour" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>准时程度：</p>
-			<el-rate class="rate" v-model="value5" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveFive" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 	</div>
 
@@ -62,7 +62,7 @@
 			<h1>教学计划</h1>
 		</div>
 		 <div class="plandetail"> 
-			<p>{{ content }}</p>
+			<p>{{item.courseInfo.content}}</p>
 		</div>
 	</div>
 </div>
@@ -72,30 +72,11 @@
 export default {
   name: 'matchTeacherDetail',
   data () {
-    return {
-      value1: '',
-      value2: '',
-      value3: '',
-      value4: '',
-      value5: '',
-      percentage: 0,
-      content: '暂无教学计划',
-      match: []
+    return {      
     }
   },
   created () {
-    let self = this
-    this.index = this.$route.params.index
-    this.teacherId = sessionStorage.getItem('teacherId')
-    this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
-      // debugger
-      this.match = response.body.data.courseInfos[self.index]
-      this.value1 = response.body.data.courseInfos[self.index].teacherInfo.evaAveOne
-      this.value2 = response.body.data.courseInfos[self.index].teacherInfo.evaAveTwo
-      this.value3 = response.body.data.courseInfos[self.index].teacherInfo.evaAveThree
-      this.value4 = response.body.data.courseInfos[self.index].teacherInfo.evaAveFour
-      this.value5 = response.body.data.courseInfos[self.index].teacherInfo.evaAveFive
-    })
+    this.item = this.$route.params.item
   }
 }
 </script> 

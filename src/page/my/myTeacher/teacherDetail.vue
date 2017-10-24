@@ -4,17 +4,17 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ classes.teacherInfo.name }}·</h1>
-          		<h2>{{ classes.courseInfo.classType }}·</h2>
-				<h2>{{ classes.courseInfo.subject }} </h2>
+				<h1>{{ item.teacherInfo.name }}·</h1>
+          		<h2>{{ item.courseInfo.classType }}·</h2>
+				<h2>{{ item.courseInfo.subject }} </h2>
 			</div>			
 			<div class="time">
-			<p>就读院校：{{ classes.teacherInfo.collegeName }} · {{ classes.teacherInfo.eduBackground }}</p>
+			<p>就读院校：{{ item.teacherInfo.collegeName }} · {{ item.teacherInfo.eduBackground }}</p>
 			</div>
 			<div class="place"><p>擅长科目：语文·英语</p></div>
 			<div class="progress">
 				<el-progress
-				:percentage="classes.courseInfo.totalPeriod * 100 / classes.courseInfo.payClass" 
+				:percentage="item.courseInfo.totalPeriod * 100 / item.courseInfo.payClass" 
 				status="success" 
 				:show-text="false"
 				:stroke-width="4"
@@ -22,8 +22,8 @@
 			</div>
 		</div>
 		<div class="top-right">
-			<img :src="classes.teacherInfo.headurl">
-			<div class="num">{{ classes.courseInfo.totalPeriod }}/{{ classes.courseInfo.payClass }}次课</div>
+			<img :src="item.teacherInfo.headurl">
+			<div class="num">{{ item.courseInfo.totalPeriod }}/{{ item.courseInfo.payClass }}次课</div>
 		</div>		
 	</div>
 	<div class="clear"></div>
@@ -35,26 +35,26 @@
 	<div class="star">
 		<div class="item">
 			<p>课堂亲和力：</p>
-			<el-rate class="rate" v-model="value1" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveOne" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学态度：</p>
-			<el-rate class="rate" v-model="value2" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveTwo" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学质量：</p>
-			<el-rate class="rate" v-model="value3" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveThree" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>语音语速：</p>
-			<el-rate class="rate" v-model="value4" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveFour" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>准时程度：</p>
-			<el-rate class="rate" v-model="value5" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.teacherInfo.evaAveFive" disabled show-text text-color="#666"  ></el-rate>
 		</div>	
 		<div  class="item">	
-			<p>详细评价：</p><h3>{{ classes.teacherInfo.teacherEvaluate }}</h3>
+			<p>详细评价：</p><h3>{{ item.teacherInfo.teacherEvaluate }}</h3>
 		</div>
 	</div>
 	
@@ -65,7 +65,7 @@
 			<h1>教学计划</h1>
 		</div>
 		 <div class="plandetail"> 
-			<p>{{ classes.courseInfo.content }}</p>
+			<p>{{ item.courseInfo.content }}</p>
 		</div>
 	</div>
 </div>
@@ -76,6 +76,7 @@ export default {
   name: 'teacherDetail',
   data () {
     return {
+      item:{},
       value1: '',
       value2: '',
       value3: '',
@@ -85,18 +86,7 @@ export default {
     }
   },
   created () {
-    let self = this
-    this.index = this.$route.params.index
-    this.teacherId = sessionStorage.getItem('studentId')
-    this.$http.get('/tatuweb/studentClassesInfo?studentId=' + self.studentId).then((response) => {
-      // debugger
-      this.classes = response.body.data.classes[self.index]
-      this.value1 = response.body.data.classes[self.index].teacherInfo.evaAveOne
-      this.value2 = response.body.data.classes[self.index].teacherInfo.evaAveTwo
-      this.value3 = response.body.data.classes[self.index].teacherInfo.evaAveThree
-      this.value4 = response.body.data.classes[self.index].teacherInfo.evaAveFour
-      this.value5 = response.body.data.classes[self.index].teacherInfo.evaAveFive
-    })
+    this.item = this.$route.params.item
   }
 }
 </script>

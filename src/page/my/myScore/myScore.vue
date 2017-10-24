@@ -15,7 +15,6 @@
 				<div class="student"><h2>{{ data.teacherNum }}</h2><h3>老师</h3></div>
 			</div>
 		</div>
-		<div class="more"><img src="../../../assets/icon_details_big.png"></div>
 	</div>
 	
 	<div  class="starContent">
@@ -72,13 +71,13 @@ export default {
     let self = this
     self.openid = self.GetQueryString('openid')
     this.$http.get('/tatuweb/studentLogin?openid=' + self.openid).then((response) => {
-      // debugger
       this.data = response.body.data
       this.studentInfo = response.body.data.studentInfo
       this.value1 = response.body.data.studentInfo.evaAveOneS
       this.value2 = response.body.data.studentInfo.evaAveTwoS
       this.value3 = response.body.data.studentInfo.evaAveThreeS
       this.value4 = response.body.data.studentInfo.evaAveFourS
+      
     })
   }
 }

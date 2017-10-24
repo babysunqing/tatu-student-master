@@ -95,7 +95,7 @@ const routes = [
   },
   {
     name: 'matchTeacherDetail',
-    path: '/matchTeacherDetail/:index',       // 匹配消息  匹配的教师详情
+    path: '/matchTeacherDetail/:item',       // 匹配消息  匹配的教师详情
     component: matchTeacherDetail
   },
   {
@@ -104,7 +104,7 @@ const routes = [
   },
   {
     name: 'planDetail',
-    path: '/planDetail/:index',       // 教学计划 计划详情
+    path: '/planDetail/:item',       // 教学计划 计划详情
     component: planDetail
   },
   {
@@ -113,12 +113,12 @@ const routes = [
   },
   {
     name: 'payCouresDetail',
-    path: '/payCouresDetail/:index',       // 付费消息 课程详情
+    path: '/payCouresDetail/:item',       // 付费消息 课程详情
     component: payCouresDetail
   },
   {
     name: 'couresPay',
-    path: '/couresPay/:index',       // 付费消息 课程续费
+    path: '/couresPay/:item',       // 付费消息 课程续费
     component: couresPay
   },
   {
@@ -139,7 +139,8 @@ const routes = [
     component: myTeacher
   },
   {
-    path: '/teacherDetail',       // 我的老师 教师详情
+    name: 'teacherDetail',
+    path: '/teacherDetail/:item',       // 我的老师 教师详情
     component: teacherDetail
   },
   {

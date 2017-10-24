@@ -46,13 +46,9 @@ export default {
   },
   created () {
     let self = this
-    this.index = this.$route.params.index
+    this.item = this.$route.params.item
     this.studentId = sessionStorage.getItem('studentId')
-    this.$http.get('/tatuweb/studentGetMsg?studentId=' + self.studentId).then((response) => {
-      this.pay = response.body.data.needPayments[this.index]
-      this.courseId = response.body.data.needPayments[this.index].courseInfo.courseId
-      this.studentId = response.body.data.needPayments[this.index].courseInfo.studentId
-    })
+    
   },
   methods: {
     onValuesChange (picker, values) {
@@ -61,7 +57,6 @@ export default {
         picker.getSlotValue(1, values[0])
       }
       this.couresNum = values[0]
-      debugger
       this.payPrice = this.pay.courseInfo.price * this.couresNum
       // this.payPrice = this.payPrice.toFixed(2)
     },
@@ -77,10 +72,10 @@ export default {
       stuJson.status = this.create
       params.append('StudentPaymentRecord', JSON.stringify(stuJson))
       params.append('openid', sessionStorage.getItem('openid'))
-      params.append('createIP', returnCitySN["cip"]) 
+      params.append('createIP', returnCitySN["cip"])
       axios({
         method: 'post',
-        url: '/tatuweb/teacherWithdrawOperate',
+        url: '/tatuweb/studentCreatePaymentOrder',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: params
       }).then(function (response) {
