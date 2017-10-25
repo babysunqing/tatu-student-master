@@ -4,17 +4,20 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ classes.teacherName }}·</h1>
-				<h2>{{ classes.courseInfo.classType }}· </h2>
-				<h2>{{ classes.courseInfo.subject }}</h2>
+				<h1>{{ item.teacherName }}·</h1>
+				<h2>{{ item.courseInfo.classType }}· </h2>
+				<h2>{{ item.courseInfo.subject }}</h2>
 			</div>			
 			<div class="time">
-				<p>上课时间：{{ classes.courseInfo.timeOfDay }}</p>
+				<p>上课时间：{{ item.courseInfo.startTime }}</p>
+			</div>
+			<div class="place">
+				<p>{{ startTime }} ~ {{ endTime }}</p>
 			</div>
 			<div class="place"><p>上课地点：科技园校区</p></div>
 			<div class="progress">
 				<el-progress class="progress"
-				:percentage="classes.courseInfo.totalPeriod * 100 / classes.courseInfo.payClass" 
+				:percentage="(item.courseInfo.totalPeriod + 1) * 100 / item.courseInfo.payClass" 
 				status="success" 
 				:show-text="false"
 				:stroke-width="4"
@@ -22,8 +25,8 @@
 			</div>
 		</div>
 		<div class="top-right">
-			<img :src="classes.teacherHeadUrl">
-			<p>{{ classes.courseInfo.totalPeriod }}/{{ classes.courseInfo.payClass }}次课</p>
+			<img :src="item.teacherHeadUrl">
+			<p>{{ (item.courseInfo.totalPeriod + 1) }}/{{ item.courseInfo.payClass }}次课</p>
 		</div>			
 	</div>
 	<div class="clear"></div>
@@ -36,7 +39,7 @@
 			<h1>教学计划</h1>
 		</div>
 		 <div class="plandetail"> 
-			<p>{{ classes.courseInfo.content }}</p>
+			<p>{{ item.courseInfo.content }}</p>
 		</div>
 	</div>
 </div>
@@ -55,13 +58,18 @@ export default {
     }
   },
   created () {
-    let self = this
-    self.index = self.GetQueryString('index')
-    this.studentId = sessionStorage.getItem('studentId')
-    this.$http.get('/tatuweb/getClassesByStudentId?studentId=' + self.studentId).then((response) => {
-      // debugger
-      this.classes = response.body.data.classesAndPeriod[self.index]
-    })
+    this.item = this.$route.params.item
+    this.checkin = this.$route.params.checkin
+    // debugger
+    var startTime = this.item.courseInfo.startTime + 604800
+    var endTime = this.item.courseInfo.endTime + 604800
+    this.item.day = new Date(parseInt(startTime) * 1000).toLocaleDateString()
+
+    this.startTime = new Date(parseInt(startTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+    this.startTime = this.startTime.substr(0,this.startTime.length-3)
+
+    this.endTime = new Date(parseInt(endTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+    this.endTime = this.endTime.substr(0,this.endTime.length-3)
   }
 }
 </script> 
@@ -132,10 +140,11 @@ h2{
 }
 .top-right img{
 	width: 1.48rem;
+	height: 1.48rem;
 	border-radius: 1.48rem;
 }
 .top-right p{
-	margin-top: .1rem;
+	margin-top: .52rem;
 	color: #2cc17b;
 	font-size: .26rem;
 }

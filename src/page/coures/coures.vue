@@ -12,8 +12,8 @@
 		<p>暂无课程</p>
 	</div>
 	<section id="content1" ><!--- 待上的课 -->	
-		<div class="item"  v-for="(item,index) in classesAndPeriod">
-			<router-link :to="'/couresDetail?index=' + index">
+		<div class="item"  v-for="item in classesAndPeriod" v-if="item.courseInfo.totalPeriod < item.courseInfo.payClass">		
+			<router-link :to="{name: 'couresDetail', params: {item: item}}">
 				<img :src="item.teacherHeadUrl">
 				<div style="float:left width：100%">
 					<div class="top" style="text-align:left">
@@ -23,22 +23,22 @@
 						<p>查看详情 >></p>					
 					</div>
 					<div class="middle">
-						<h3>{{ item.courseInfo.userId }} · {{ item.courseInfo.timeOfDay }}</h3>
+						<h3>{{ item.courseInfo.userId }} · {{ item.courseInfo.startTime }}</h3>
 					</div>	
 					<div class="bottom">
 						<el-progress class="progress"
-						:percentage="item.courseInfo.totalPeriod * 100 / item.courseInfo.payClass" 
+						:percentage="(item.courseInfo.totalPeriod + 1) * 100 / item.courseInfo.payClass" 
 						status="success" 
 						:show-text="false"
 						:stroke-width="4"
 						></el-progress>
-						<p>{{item.courseInfo.totalPeriod}}/{{ item.courseInfo.payClass }}次课</p>
+						<p>{{(item.courseInfo.totalPeriod + 1)}}/{{ item.courseInfo.payClass }}次课</p>
 					</div>	
 				</div>	
 			</router-link>	
 		</div>	
-		<div class="item" v-for="(item,index) in tryClasses"><!--- 已经上的试课 -->	
-			<router-link :to="'/tryClassDetailDone?index=' + index">
+		<div class="item" v-for="item in tryClasses">		
+			<router-link :to="{name: 'tryClassDetail', params: {item: item}}">
 				<img :src="item.headurl">
 				<div style="float:left width：100%">
 					<div class="top" style="text-align:left">
@@ -48,7 +48,7 @@
 						<p>查看详情 >></p>					
 					</div>
 					<div class="middle">
-						<h3>{{ item.courseInfo.userId }} · {{ item.courseInfo.timeOfDay }}</h3>
+						<h3>{{ item.courseInfo.userId }} · {{ item.courseInfo.startTime }}</h3>
 					</div>	
 					<div class="bottom">
 						<el-progress class="progress"
@@ -64,8 +64,9 @@
 		</div>
 	</section>
 	<section id="content2"><!--- 已经上的课程 -->	
-		<div class="item"  v-for="(item,index) in classesAndPeriod">
-			<router-link :to="'/couresDetail?index=' + index">
+		<div  v-for="item in classesAndPeriod" >
+		<div class="item" v-for="checkin in item.checkins">		
+			<router-link :to="{name: 'couresDetailDone', params: {item,checkin}}">
 				<img :src="item.teacherHeadUrl">
 				<div style="float:left width：100%">
 					<div class="top" style="text-align:left">
@@ -75,19 +76,23 @@
 						<p>查看详情 >></p>					
 					</div>
 					<div class="middle">
-						<h3>{{ item.courseInfo.userId }} · {{ item.courseInfo.timeOfDay }}</h3>
+						<h3>{{ item.courseInfo.userId }} · {{ checkin.day }}</h3>
 					</div>	
 					<div class="bottom">
 						<el-progress class="progress"
-						:percentage="item.courseInfo.totalPeriod * 100 / item.courseInfo.payClass" 
+						:percentage="checkin.period * 100 / item.courseInfo.payClass" 
 						status="success" 
 						:show-text="false"
 						:stroke-width="4"
 						></el-progress>
-						<p>{{item.courseInfo.totalPeriod}}/{{ item.courseInfo.payClass }}次课</p>
+						<p v-if="checkin.period >= 1">
+							{{ checkin.period }}/{{ item.courseInfo.payClass }}次课
+						</p>
+						<p v-else>试课</p>
 					</div>	
 				</div>	
 			</router-link>	
+		</div>
 		</div>
 		<router-view></router-view>	
 	</section>
@@ -143,18 +148,24 @@ export default {
       }
       if(this.classesAndPeriod.length > 0){
       	for(var i=0;i < this.classesAndPeriod.length;i++){
-          if(this.classesAndPeriod[i].courseInfo.classType = 1){
+      	  var time = this.classesAndPeriod[i].courseInfo.startTime+604800
+          this.classesAndPeriod[i].courseInfo.startTime = new Date(parseInt(time) * 1000).toLocaleDateString()
+          for(var j=0; j < this.classesAndPeriod[i].checkins.length; j++){
+        	var startTime = this.classesAndPeriod[i].checkins[j].startTime
+        	this.classesAndPeriod[i].checkins[j].day = new Date(parseInt(startTime) * 1000).toLocaleDateString()        	
+          }
+          if(this.classesAndPeriod[i].courseInfo.classType === '1'){
       	    this.classesAndPeriod[i].courseInfo.classType = '辅导课'
-          }else if(this.classesAndPeriod[i].courseInfo.classType = 2){
+          }else if(this.classesAndPeriod[i].courseInfo.classType === '2'){
       	    this.classesAndPeriod[i].courseInfo.classType = '教学课'
           } // 
         }
       }
       if(this.tryClasses.length > 0){
       	for(var i=0;i < this.tryClasses.length;i++){
-          if(this.tryClasses[i].courseInfo.classType = 1){
+          if(this.tryClasses[i].courseInfo.classType === '1'){
       	    this.tryClasses[i].courseInfo.classType = '辅导课'
-          }else if(this.tryClasses[i].courseInfo.classType = 2){
+          }else if(this.tryClasses[i].courseInfo.classType === '2'){
       	    this.tryClasses[i].courseInfo.classType = '教学课'
           }
         }

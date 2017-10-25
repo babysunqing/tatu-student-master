@@ -48,7 +48,7 @@
     </router-link>
   </div>
 
-  <div class="msg-item">
+  <div class="msg-item" v-bind:class="{ 'display': isdisplay5, 'normal': normal1 }" >
     <img src="../../assets/icon_Withdrawal.png">
     <div class="msg-content">
       <div class="msg-title">通知</div>
@@ -75,6 +75,8 @@ export default {
       isdisplay3:true,
       isdisplay4:true,
       normal: false,
+      isdisplay5:false,
+      normal1:true,
       match: [],
       suggestion:[],
       plan:[],
@@ -89,6 +91,9 @@ export default {
       self.suggestion = res.data.data.complainFeedbacks
       self.plan = res.data.data.courseInfos
       self.needPayments = res.data.data.needPayments
+      if(self.match.length > 0 || self.suggestion.length > 0 || self.needPayments.length > 0 || self.plan.length > 0){
+        self.isdisplay5 = true
+      }
       if(self.match.length > 0){ //如果付费消息数组长度大于0 ，则显示这一栏
         self.isdisplay1 = false
         self.normal = true

@@ -8,100 +8,131 @@
 					"teacherId":1,
 					"subject":"数学",
 					"classType":"1",
+					"startTime":1508383800,
+					"endTime":1508387400,
 					"content":"确定能力、方法培养目标及其教学实施策略",
 					"timeOfDay":"2017-09-20",
-					"totalPeriod":"3",
-					"payClass":"10",
+					"totalPeriod":3,
+					"payClass":10,
 					"userId":"111"
 				},
-				"teacherName":"李明涛",
-				"teacherEvaOne":4,
-				"teacherEvaTwo":3,
-				"teacherEvaThree":4,
-				"teacherEvaFour":5,
-				"teacherEvaluate":"悟性很高，再专心点就更好了！",
-				"studentEvaOne":4,
-				"studentEvaTwo":5,
-				"studentEvaThree":3,
-				"studentEvaFour":4,
-				"studentEvaFive":5,
-				"studentEvaluate":"老师教的很好！",
+				"evaluates":[
+					{
+						"period":2,
+						"teacherEvaOne":3,
+						"teacherEvaTwo":4,
+						"teacherEvaThree":3,
+						"teacherEvaFour":3,
+						"teacherEvaluate":"悟性很好！",
+						"studentEvaOne":4,
+						"studentEvaTwo":4,
+						"studentEvaThree":5,
+						"studentEvaFour":4,
+						"studentEvaFive":3,
+						"studentEvaluate":"学生评语！！！！！"
+					},
+					{
+						"period":3,
+						"teacherEvaOne":5,
+						"teacherEvaTwo":5,
+						"teacherEvaThree":4,
+						"teacherEvaFour":5,
+						"teacherEvaluate":"悟性很好！",
+						"studentEvaOne":4,
+						"studentEvaTwo":4,
+						"studentEvaThree":5,
+						"studentEvaFour":4,
+						"studentEvaFive":3,
+						"studentEvaluate":"学生评语！！！！！"
+					}
+				],
+				"checkins":[
+					{
+						"startTime":1508383800,
+						"endTime":1508387400,
+						"period":0
+					},
+					{
+						"startTime":1508383800,
+						"endTime":1508387400,
+						"period":1
+					},
+					{
+						"startTime":1508383800,
+						"endTime":1508387400,
+						"period":2
+					},
+					{
+						"startTime":1508383800,
+						"endTime":1508387400,
+						"period":3
+					}
+				],
+				"teacherName":"李明涛",				
 				"teacherHeadUrl":"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2888620078,2787244361&fm=27&gp=0.jpg"
-			},
-			{
-				"courseInfo":{
-					"teacherId":1,
-					"subject":"数学",
-					"classType":"2",
-					"content":"教学计划确定能力、方法培养目标及其教学实施策略",
-					"timeOfDay":"2017-09-15",
-					"totalPeriod":"2",
-					"payClass":"10",
-					"userId":"111"
-				},
-				"teacherName":"李明涛",
-				"teacherEvaOne":4,
-				"teacherEvaTwo":5,
-				"teacherEvaThree":3,
-				"teacherEvaFour":4,
-				"teacherEvaluate":"悟性很高，再专心点就更好了！",
-				"studentEvaOne":3,
-				"studentEvaTwo":4.5,
-				"studentEvaThree":4,
-				"studentEvaFour":3,
-				"studentEvaFive":5,
-				"studentEvaluate":"老师教的很好！",
-				"teacherHeadUrl":"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2888620078,2787244361&fm=27&gp=0.jpg"
-			},
-			{
-				"courseInfo":{
-					"teacherId":1,
-					"subject":"数学",
-					"classType":"2",
-					"content":"确定能力、方法培养目标及其教学实施策略",
-					"timeOfDay":"2017-09-10",
-					"totalPeriod":"1",
-					"payClass":"10",
-					"userId":"111"
-				},
-				"teacherName":"李明涛",
-				"teacherEvaOne":3,
-				"teacherEvaTwo":4,
-				"teacherEvaThree":3,
-				"teacherEvaFour":5,
-				"teacherEvaluate":"悟性很高，再专心点就更好了！",
-				"studentEvaOne":3,
-				"studentEvaTwo":4,
-				"studentEvaThree":5,
-				"studentEvaFour":3,
-				"studentEvaFive":2,
-				"studentEvaluate":"老师教的很好！",
-				"teacherHeadUrl":"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2888620078,2787244361&fm=27&gp=0.jpg"
-			},
+			},		
 			{
 				"courseInfo":{
 					"teacherId":2,
 					"subject":"英语",
 					"classType":"2",
+					"startTime":1508383800,
+					"endTime":1508388400,
 					"content":"教学计划！！！！！",
-					"startTime":"1508383800",
-					"endTime":"1508383800",
-					"totalPeriod":"1",
-					"payClass":"10",
+					"startTime":1508383800,
+					"endTime":1508383800,
+					"totalPeriod":1,
+					"payClass":10,
 					"userId":"111"
 				},
+				"evaluates":[
+					{
+						"period":2,
+						"teacherEvaOne":3,
+						"teacherEvaTwo":4,
+						"teacherEvaThree":3,
+						"teacherEvaFour":3,
+						"teacherEvaluate":"悟性很好！",
+						"studentEvaOne":4,
+						"studentEvaTwo":4,
+						"studentEvaThree":5,
+						"studentEvaFour":4,
+						"studentEvaFive":3,
+						"studentEvaluate":"学生评语！！！！！"
+					},
+					{
+						"period":3,
+						"teacherEvaOne":5,
+						"teacherEvaTwo":5,
+						"teacherEvaThree":4,
+						"teacherEvaFour":5,
+						"teacherEvaluate":"悟性很好！",
+						"studentEvaOne":4,
+						"studentEvaTwo":4,
+						"studentEvaThree":5,
+						"studentEvaFour":4,
+						"studentEvaFive":3,
+						"studentEvaluate":"学生评语！！！！！"
+					}
+				],
+				"checkins":[
+					{
+						"startTime":1508383800,
+						"endTime":1508387400,
+						"period":1
+					},
+					{
+						"startTime":1508383800,
+						"endTime":1508387400,
+						"period":2
+					},
+					{
+						"startTime":1508383800,
+						"endTime":1508387400,
+						"period":3
+					}
+				],
 				"teacherName":"张老师",
-				"teacherEvaOne":3,
-				"teacherEvaTwo":4,
-				"teacherEvaThree":3,
-				"teacherEvaFour":5,
-				"teacherEvaluate":"悟性很高！",
-				"studentEvaOne":3,
-				"studentEvaTwo":4,
-				"studentEvaThree":5,
-				"studentEvaFour":3,
-				"studentEvaFive":2,
-				"studentEvaluate":"老师教！！！！！的很好！",
 				"teacherHeadUrl":""
 			}
 		],
@@ -112,7 +143,8 @@
 					"subject":"英语",
 					"classType":"1",
 					"content":"（1）确定知识目标。（2）确定能力、方法培养目标及其教学实施策略",
-					"timeOfDay":"2017-09-13",
+					"startTime":1508383500,
+					"endTime":1508347400,
 					"userId":"111"
 				},
 				"teacherName":"王晓婷",

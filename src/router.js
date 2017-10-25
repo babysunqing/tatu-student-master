@@ -4,7 +4,7 @@ import index from './page/index.vue'
 import coures from './page/coures/coures.vue'
 import couresDetail from './page/coures/couresDetail.vue'
 import couresDetailDone from './page/coures/couresDetailDone.vue'
-import tryClassDetailDone from './page/coures/tryClassDetailDone.vue'
+import tryClassDetail from './page/coures/tryClassDetail.vue'
 
 import message from './page/message/message.vue'
 import msgMatching from './page/message/matching/msgMatching.vue'
@@ -65,16 +65,19 @@ const routes = [
     component: coures
   },
   {
-    path: '/couresDetail',             // 待上课程详情
+    name:'couresDetail',
+    path: '/couresDetail/:item',             // 待上课程详情
     component: couresDetail
   },
   {
-    path: '/couresDetailDone',             // 以上课程详情
+    name:'couresDetailDone',
+    path: '/couresDetailDone/:item/:checkin',             // 以上课程详情
     component: couresDetailDone
   },
   {
-    path: '/tryClassDetailDone',             // 已上试课程详情
-    component: tryClassDetailDone
+    name:'tryClassDetail',
+    path: '/tryClassDetail/:item',             // 已上试课程详情
+    component: tryClassDetail
   },
   {
     path: '/message',             // 消息页

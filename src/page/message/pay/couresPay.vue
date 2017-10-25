@@ -17,14 +17,16 @@
 </div>
 </template>
 
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
 <script>
 import axios from 'axios'
 export default {
   name: 'couresPay',
   data () {
     return {
+      values:[1,0],
       create: 'create',
-      payPrice: '',
+      payPrice: 0,
       couresNum: 10,
       pay: {},
       courseId: '',
@@ -45,20 +47,19 @@ export default {
     }
   },
   created () {
-    let self = this
+    // debugger
     this.item = this.$route.params.item
-    this.studentId = sessionStorage.getItem('studentId')
-    
   },
   methods: {
     onValuesChange (picker, values) {
       if (values[0] > values[1]) {
         picker.setSlotValue(1, values[0])
-        picker.getSlotValue(1, values[0])
+        picker.getSlotValue(1, values[0])          
       }
-      this.couresNum = values[0]
-      this.payPrice = this.pay.courseInfo.price * this.couresNum
-      // this.payPrice = this.payPrice.toFixed(2)
+      // debugger
+      this.couresNum = values[0] 
+      this.payPrice = this.item.courseInfo.price * this.couresNum
+      this.payPrice = this.payPrice.toFixed(2)
     },
     stuPay: function () {
       var params = new URLSearchParams()
@@ -73,13 +74,23 @@ export default {
       params.append('StudentPaymentRecord', JSON.stringify(stuJson))
       params.append('openid', sessionStorage.getItem('openid'))
       params.append('createIP', returnCitySN["cip"])
+      let self = this
       axios({
         method: 'post',
         url: '/tatuweb/studentCreatePaymentOrder',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: params
-      }).then(function (response) {
-        window.location.href = '/tatuweb/paySuccess' // 续费成功
+      }).then(function (res) {
+        self.data = res.data.data  
+        wx.config({
+            // debug: true,
+            appId: self.data.appId,
+            timestamp:self.data.timestamp,
+            nonceStr: self.data.nonceStr,
+            signature: self.data.signature,
+            jsApiList: ['chooseWXPay']
+        })
+        // window.location.href = '/tatuweb/paySuccess'
       })
     }
   }
