@@ -4,17 +4,20 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ complain.teacherName }}·</h1>
-				<h2>{{ complain.courseInfo.classType }}· </h2>
-				<h2>{{ complain.courseInfo.subject }}</h2>
+				<h1>{{ item.teacherName }}·</h1>
+				<h2>{{ item.courseInfo.classType }}· </h2>
+				<h2>{{ item.courseInfo.subject }}</h2>
 			</div>			
 			<div class="time">
-			<p>上课时间：{{ complain.courseInfo.timeOfDay }}</p>
+				<p>上课时间：{{ item.courseInfo.day }}</p>
+			</div>
+			<div class="place">
+				<p>{{ startTime }} ~ {{ endTime }}</p>
 			</div>
 			<div class="place"><p>上课地点：科技园校区</p></div>
 			<div class="progress">
 				<el-progress
-				:percentage="complain.courseInfo.totalPeriod*100/complain.courseInfo.payClass" 
+				:percentage="item.courseInfo.totalPeriod*100/item.courseInfo.payClass" 
 				status="success" 
 				:show-text="false"
 				:stroke-width="4"
@@ -22,8 +25,8 @@
 			</div>
 		</div>
 		<div class="top-right">
-			<img :src="complain.headurl">
-			<div class="num">{{ complain.courseInfo.totalPeriod }}/{{ complain.courseInfo.payClass }}次课</div>
+			<img :src="item.headurl">
+			<div class="num">{{ item.courseInfo.totalPeriod }}/{{ item.courseInfo.payClass }}次课</div>
 		</div>		
 	</div>
 	<div class="clear"></div>
@@ -35,22 +38,22 @@
 	<div class="star">
 			<div class="item">
 				<p>互动积极性:</p>
-				<el-rate class="rate" v-model="stuValue1" disabled show-text text-color="#666"  ></el-rate>
+				<el-rate class="rate" v-model="item.evaluateRecord.teacherEvaLineOne" disabled show-text text-color="#666"  ></el-rate>
 			</div>
 			<div  class="item">	
 				<p>课堂领悟力:</p>
-				<el-rate class="rate" v-model="stuValue2" disabled show-text text-color="#666"  ></el-rate>
+				<el-rate class="rate" v-model="item.evaluateRecord.teacherEvaLineTwo" disabled show-text text-color="#666"  ></el-rate>
 			</div>
 			<div  class="item">	
 				<p>专心程度:</p>
-				<el-rate class="rate" v-model="stuValue3" disabled show-text text-color="#666"  ></el-rate>
+				<el-rate class="rate" v-model="item.evaluateRecord.teacherEvaLineThree" disabled show-text text-color="#666"  ></el-rate>
 			</div>
 			<div  class="item">	
 				<p>课堂表现:</p>
-				<el-rate class="rate" v-model="stuValue4" disabled show-text text-color="#666"  ></el-rate>
+				<el-rate class="rate" v-model="item.evaluateRecord.teacherEvaLineFour" disabled show-text text-color="#666"  ></el-rate>
 			</div>
 			<div  class="item evaluate">	
-			<p>详细评价：</p><h3>{{ complain.evaluateRecord.teacherEvaluate }}</h3>
+			<p>详细评价：</p><h3>{{ item.evaluateRecord.teacherEvaluate }}</h3>
 		</div>	
 		</div>
 	
@@ -61,26 +64,26 @@
 	<div class="star">
 		<div class="item">
 			<p>课堂亲和力：</p>
-			<el-rate class="rate" v-model="value1" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.evaluateRecord.studentEvaLineOne" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学态度：</p>
-			<el-rate class="rate" v-model="value2" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.evaluateRecord.studentEvaLineTwo" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>教学质量：</p>
-			<el-rate class="rate" v-model="value3" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.evaluateRecord.studentEvaLineThree" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>语音语速：</p>
-			<el-rate class="rate" v-model="value4" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.evaluateRecord.studentEvaLineFour" disabled show-text text-color="#666"  ></el-rate>
 		</div>
 		<div  class="item">	
 			<p>准时程度：</p>
-			<el-rate class="rate" v-model="value5" disabled show-text text-color="#666"  ></el-rate>
+			<el-rate class="rate" v-model="item.evaluateRecord.studentEvaLineFive" disabled show-text text-color="#666"  ></el-rate>
 		</div>	
 		<div  class="item evaluate">	
-			<p>详细评价：</p><h3>{{ complain.evaluateRecord.studentEvaluate }}</h3>
+			<p>详细评价：</p><h3>{{ item.evaluateRecord.studentEvaluate }}</h3>
 		</div>
 	</div>
 
@@ -91,7 +94,7 @@
 			<h1>教学计划</h1>
 		</div>
 		 <div class="plandetail"> 
-			<p>{{ complain.courseInfo.content}}</p>
+			<p>{{ item.courseInfo.content}}</p>
 		</div>
 	</div>
 </div>
@@ -101,36 +104,19 @@
 export default {
   name: 'msgSuggestionDetail',
   data () {
-    return {
-      value1: '',
-      value2: '',
-      value3: '',
-      value4: '',
-      value5: '',
-      stuValue1: '',
-      stuValue2: '',
-      stuValue3: '',
-      stuValue4: '',
-      complain: []
-    }
+    return {}
   },
   created () {
-    let self = this
-    this.index = this.$route.params.index
-    this.teacherId = sessionStorage.getItem('teacherId')
-    this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
-      // debugger
-      this.complain = response.body.data.complainFeedbacks[self.index]
-      this.value1 = response.body.data.complainFeedbacks[self.index].evaluateRecord.studentEvaLineOne
-      this.value2 = response.body.data.complainFeedbacks[self.index].evaluateRecord.studentEvaLineTwo
-      this.value3 = response.body.data.complainFeedbacks[self.index].evaluateRecord.studentEvaLineThree
-      this.value4 = response.body.data.complainFeedbacks[self.index].evaluateRecord.studentEvaLineFour
-      this.value5 = response.body.data.complainFeedbacks[self.index].evaluateRecord.studentEvaLineFive
-      this.stuValue1 = response.body.data.complainFeedbacks[self.index].evaluateRecord.teacherEvaLineOne
-      this.stuValue2 = response.body.data.complainFeedbacks[self.index].evaluateRecord.teacherEvaLineTwo
-      this.stuValue3 = response.body.data.complainFeedbacks[self.index].evaluateRecord.teacherEvaLineThree
-      this.stuValue4 = response.body.data.complainFeedbacks[self.index].evaluateRecord.teacherEvaLineFour
-    })
+    this.item = this.$route.params.item 
+    var startTime = this.item.courseInfo.startTime
+    var endTime = this.item.courseInfo.endTime
+    this.item.courseInfo.day = new Date(parseInt(startTime) * 1000).toLocaleDateString()
+
+    this.startTime = new Date(parseInt(startTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+    this.startTime = this.startTime.substr(0,this.startTime.length-3)
+
+    this.endTime = new Date(parseInt(endTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+    this.endTime = this.endTime.substr(0,this.endTime.length-3)
   }
 }
 </script> 
@@ -235,7 +221,7 @@ h2{
 	border-radius: 1.48rem;
 }
 .top-right .num{
-	margin-top: .1rem;
+	margin-top: .58rem;
 	color: #2cc17b;
 	font-size: .26rem;
 }

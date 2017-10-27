@@ -4,11 +4,11 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ suggestions.type }}·</h1>
-				<h2>{{ suggestions.status }}</h2>
+				<h1>{{ item.type }}·</h1>
+				<h2>{{ item.status }}</h2>
 			</div>		
 			<p>申诉人：{{ studentInfo.name }}</p>
-			<p style="margin-top:.2rem">申诉时间：{{ suggestions.time }}</p>	
+			<p style="margin-top:.2rem">申诉时间：{{ item.day }} {{ item.time }}</p>	
 		</div>
 		<div class="top-right">
 			<img :src="studentInfo.headurl">
@@ -22,7 +22,7 @@
 			<h1>具体内容</h1>
 		</div>
 		 <div class="contentDetail"> 
-			<p>{{ suggestions.suggestionContent }}</p>
+			<p>{{ item.suggestionContent }}</p>
 		</div>
 	</div>
 </div>
@@ -43,30 +43,14 @@ export default {
     }
   },
   created () {
-    let self = this
-    self.index = self.GetQueryString('index')
-    this.teacherId = sessionStorage.getItem('teacherId')
-    this.$http.get('/tatuweb/studentSuggestions?teacherId=' + self.teacherId).then((response) => {
-      // debugger
-      this.suggestions = response.body.data.suggestions[self.index]
-      // 时间戳转换成时间，并把转换好的时间添加到suggestions数组里面
-      var time = this.suggestions.createTime
-      time = new Date(parseInt(time) * 1000).toLocaleString().replace(/年|月/g, '-').replace(/日/g, ' ')
-      this.suggestions.time = time
-      var init = 'init'
-      var dealing = 'dealing'
-      if (this.suggestions.status === init) {
-        // debugger
-        this.suggestions.status = '未处理'
-      } else if (this.suggestions.status === dealing) {
-        this.suggestions.status = '待处理'
-      } else {
-        this.suggestions.status = '已处理'
-      }
-    })
-    self.openid = self.GetQueryString('openid')
+    this.item = this.$route.params.item
+    var createTime = this.item.createTime
+    this.item.day = new Date(parseInt(createTime) * 1000).toLocaleDateString()
+    this.item.time = new Date(parseInt(createTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+    this.item.time = this.item.time.substr(0,this.item.time.length-3)
+   	let self = this
+    self.openid = sessionStorage.getItem('openid')
     this.$http.get('/tatuweb/studentLogin?openid=' + self.openid).then((response) => {
-      // debugger
       this.studentInfo = response.body.data.studentInfo
     })
   }

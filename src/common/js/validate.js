@@ -19,11 +19,10 @@ const dictionary = {
         required: ( field )=> "请输入" + field
       },
       attributes:{
-        email:'邮箱',
-        password:'密码',
-        name:'老师姓名',
-        phone: '手机号码',
-        tel: '电话号码'
+        name:'姓名',
+        age:'年龄',
+        contactName:'监护人姓名',
+        tel: '联系方式'
       }
   }
 };

@@ -40,7 +40,8 @@
 					"timeOfDay":"2017-09-10",
 					"totalPeriod":"3",
 					"payClass":"5",
-					"createTime":1293072805
+					"startTime":1508833800,
+					"endTime":1508830200
 				},
 				"evaluateRecord":{								
 					"collegeName":"清华大学",
@@ -49,8 +50,7 @@
 					"classType":"2",
 					"handleSuggestion":"您的投诉管理员已处理，我们将重新为您推荐老师。",
 					"teacherEvaluate":"悟性很高，载专心一点就更好了！",
-					"studentEvaluate":"老师迟到一个小时，学生没人管!老师迟到一个小时，学生没人管!",
-					"createTime":1293072805,
+					"studentEvaluate":"老师迟到一个小时，学生没人管!老师迟到一个小时，学生没人管!",					
 					"complainStatus":"done",
 					"teacherEvaLineOne":"3",					
 					"teacherEvaLineTwo":"4.5",
@@ -74,7 +74,8 @@
 					"timeOfDay":"2017-09-10",
 					"totalPeriod":"10",
 					"payClass":"15",
-					"createTime":1177824835
+					"startTime":1508833800,
+					"endTime":1508830200
 				},
 				"evaluateRecord":{								
 					"collegeName":"清华大学",

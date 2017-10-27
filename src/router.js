@@ -23,7 +23,11 @@ import my from './page/my/my.vue'
 import myInfo from './page/my/myInfo.vue'
 import myTeacher from './page/my/myTeacher/myTeacher.vue'
 import teacherDetail from './page/my/myTeacher/teacherDetail.vue'
+
 import myEvaluation from './page/my/myEvaluation/myEvaluation.vue'
+import evaluationDetail from './page/my/myEvaluation/evaluationDetail.vue'
+import noEvaluationDetail from './page/my/myEvaluation/noEvaluationDetail.vue'
+
 import myScore from './page/my/myScore/myScore.vue'
 import mySuggestion from './page/my/mySuggestion/mySuggestion.vue'
 import suggestionDetail from './page/my/mySuggestion/suggestionDetail.vue'
@@ -134,7 +138,7 @@ const routes = [
   },
   {
     name: 'msgSuggestionDetail',
-    path: '/msgSuggestionDetail/:index',       // 投诉反馈 投诉的课程详情
+    path: '/msgSuggestionDetail/:item',       // 投诉反馈 投诉的课程详情
     component: msgSuggestionDetail
   },
   {
@@ -148,7 +152,17 @@ const routes = [
   },
   {
     path: '/myEvaluation',       // 我的评价
-    component: myEvaluation
+    component: myEvaluation 
+  },
+  {
+    name:'evaluationDetail',
+    path: '/evaluationDetail/:item',       // 我的评价
+    component: evaluationDetail
+  },
+  {
+    name:'noEvaluationDetail',
+    path: '/noEvaluationDetail/:item',       // 我的评价
+    component: noEvaluationDetail
   },
   {
     path: '/myScore',       // 我的评分
@@ -159,7 +173,8 @@ const routes = [
     component: mySuggestion
   },
   {
-    path: '/suggestionDetail',       // 建议详情
+    name:'suggestionDetail',
+    path: '/suggestionDetail/:item',       // 建议详情
     component: suggestionDetail
   },
   {

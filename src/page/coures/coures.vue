@@ -163,6 +163,9 @@ export default {
       }
       if(this.tryClasses.length > 0){
       	for(var i=0;i < this.tryClasses.length;i++){
+      		var time = this.tryClasses[i].courseInfo.startTime
+            this.tryClasses[i].courseInfo.startTime = new Date(parseInt(time) * 1000).toLocaleDateString()
+
           if(this.tryClasses[i].courseInfo.classType === '1'){
       	    this.tryClasses[i].courseInfo.classType = '辅导课'
           }else if(this.tryClasses[i].courseInfo.classType === '2'){

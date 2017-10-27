@@ -11,28 +11,39 @@
 			<input type="hidden" name="registerTime" :value="form.registerTime">
 			<li>
 				<span>姓名:</span>
-				<input v-validate="'required'" type="text" name="name" v-model='form.name' placeholder="请输入您的真实姓名"  />
+				<input v-validate="'required'" type="text" name="name" v-model='form.name' placeholder="请输入您的真实姓名" />
+        <span id="formVee" v-show="errors.has('name')" class="text-style" v-cloak>
+          <icon class="el-icon-circle-close"></icon>
+        </span>
 			</li>
 				
 			<li>
 				<span>性别:</span>			
 					<input type="radio" id="male" class="regular-radio"  name="sex" value="male" v-model='form.sex' v-validate="'required'"/>
-					<label for="male"></label>男   
-
-                	<input type="radio" id="female" name="sex"  class="regular-radio" value="female" v-model='form.sex' />
-                	<label for="female" style="margin-left: .2rem"></label>女
+					<label for="male"></label>男
+        	<input type="radio" id="female" name="sex"  class="regular-radio" value="female" v-model='form.sex' />
+        	<label for="female" style="margin-left: .2rem"></label>女
 			</li>
 			<li>
 				<span>年龄:</span>
-				<input type="number" name="age"  v-model='form.age'  placeholder="请输入您的年龄" />
+				<input v-validate="'required'"  type="number" name="age"  v-model='form.age'  placeholder="请输入您的年龄" />
+        <span id="formVee" v-show="errors.has('age')" class="text-style" v-cloak>
+          <icon class="el-icon-circle-close"></icon>
+        </span>
 			</li>
 			<li>
 				<span>监护人姓名:</span>
-				<input type="number" name="age"  v-model='form.contactName'  placeholder="请输入监护人姓名" />
+				<input v-validate="'required'"  type="text" name="contactName"  v-model='form.contactName'  placeholder="请输入监护人姓名" />
+        <span id="formVee" v-show="errors.has('contactName')" class="text-style" v-cloak>
+          <icon class="el-icon-circle-close"></icon>
+        </span>
 			</li>
 			<li>
 				<span>联系方式:</span>
 				<input v-validate="'required|tel'" style="float:left;line-height:.86rem;width:40%;" type="tel" name="tel" v-model='form.tel' placeholder="请输入手机号" />
+        <span id="formVeetel" v-show="errors.has('tel')" class="text-style" v-cloak>
+          <icon class="el-icon-circle-close"></icon>
+        </span>
         <p id="yzBtn" @click="getCode()">获取验证码</p>
 			</li>
 		    <li>
@@ -94,22 +105,122 @@
 				<label for="jiaoxue">教学课</label>
 			</li>
 		   	<li style="height:auto">
-		   		<span>上课时间:</span>
-		   		<div class="timeList" v-for="(item,index) of timeList">
-		   			{{item[0] }}  {{item[1] }}
-		   			<h6 class="el-icon-circle-cross" @click="close(index)"></h6>
-		   		</div>
-		   		<input placeholder="添加上课时间" readonly="readonly" @click="clickTime()" />
-	   			<mt-popup v-model="popupVisible" position="bottom">
-	       		    <div class="cancel" @click="cancelTime()">取消</div>
-	        		<div class="addTime" @click="submitTime()">确定</div>
-	       		    <mt-picker class="timePicker" 
-	         		    :slots="slotsTime" 
-	         		    @change="onTimeChange" 
-	         		    :itemHeight="36">           
-	        		</mt-picker>
-	    		</mt-popup>
-		   	</li>
+          <span>上课时间:</span>
+          <div class="timeList" v-for="(item,index) of availTime">
+            {{item}}
+            <h6 class="el-icon-circle-cross" @click="close(index)"></h6>
+          </div>
+          <input placeholder="添加上课时间" readonly="readonly" @click="alertPop()" />
+          <mt-popup v-model="popupVisible" position="bottom" class="timePicker">
+              <div class="cancel" @click="cancel()">取消</div>
+              <div class="addTime" @click="submit()">确定</div>
+                <table>
+                  <tr>
+                    <td ></td>
+                    <td >周一</td>
+                    <td >周二</td>
+                    <td >周三</td>
+                    <td >周四</td>
+                    <td >周五</td>
+                    <td >周六</td>
+                    <td >周日</td>
+                  </tr>
+                <tr>
+                  <td>上午</td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="1s" value="星期一上午" />
+                    <label for="1s" class="el-icon-circle-check"></label>                  
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="2s" value="星期二上午" />
+                    <label for="2s" class="el-icon-circle-check"></label> 
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="3s" value="星期三上午" />
+                    <label for="3s" class="el-icon-circle-check"></label> 
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="4s" value="星期四上午" />
+                    <label for="4s" class="el-icon-circle-check"></label> 
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="5s" value="星期五上午" />
+                    <label for="5s" class="el-icon-circle-check"></label> 
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="6s" value="星期六上午" />
+                    <label for="6s" class="el-icon-circle-check"></label> 
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="7s" value="星期日上午" />
+                    <label for="7s" class="el-icon-circle-check"></label> 
+                  </td>
+                </tr>
+                <tr>
+                  <td>下午</td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="1x" value="星期一下午" />
+                    <label for="1x" class="el-icon-circle-check"></label> 
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="2x" value="星期二下午" />
+                    <label for="2x" class="el-icon-circle-check"></label> 
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="3x" value="星期三下午" />
+                    <label for="3x" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="4x" value="星期四下午" />
+                    <label for="4x" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="5x" value="星期五下午" />
+                    <label for="5x" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="6x" value="星期六下午" />
+                    <label for="6x" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="7x" value="星期日下午" />
+                    <label for="7x" class="el-icon-circle-check"></label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>晚上</td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="1w" value="星期一晚上" />
+                    <label for="1w" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="2w" value="星期二晚上" />
+                    <label for="2w" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="3w" value="星期三晚上" />
+                    <label for="3w" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="4w" value="星期四晚上" />
+                    <label for="4w" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="5w" value="星期五晚上" />
+                    <label for="5w" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="6w" value="星期六晚上" />
+                    <label for="6w" class="el-icon-circle-check"></label>
+                  </td>
+                  <td>
+                    <input class="time-checkbox" type="checkbox" name="availTime" id="7w" value="星期日晚上" />
+                    <label for="7w" class="el-icon-circle-check"></label>
+                  </td>
+                </tr>
+                </table>
+          </mt-popup>
+        </li>
 		   	<li style="height:2.4rem;font-size:.2rem" >	
 				<mt-picker class="picker" 
 					:slots="slots"
@@ -138,6 +249,10 @@
 	<div class="bottom">
 		<button class="tixian" @click="DoRegitser()">提交</button>
 	</div>
+  <mt-popup class="popup-loading" v-model="popupDoRegitser" closeOnClickModal="false">
+   <mt-spinner :type="2" color="#2cc17b"></mt-spinner>
+   <div class="icon-loading">正在提交</div>
+  </mt-popup>
     <p>进入TaTu课堂代表您已同意
     	<router-link to="/agreements">
     		<span style="color:#666">《用户协议》</span>
@@ -159,7 +274,7 @@ export default {
       popup:false,
       gradeValue:[],
       stuGradeValue:[],
-      timeList: [],
+      availTime: [],
       name: '',
       timeValues: {},
       SubjectJsons: {
@@ -170,31 +285,13 @@ export default {
       	english:false,
       },
       popupVisible:false,
+      popupDoRegitser:false,
       slotsGrade:[
       	{
           flex: 1,
           values: ["小学 一年级" ,"小学 二年级","小学 三年级" ,"小学 四年级","小学 五年级" ,"小学 六年级","初一","初二","初三","高一","高二","高三"],
           textAlign: 'center'
         }
-      ],
-      slotsTime: [
-        {
-          flex: 1,
-          values: ["星期一" ,"星期二","星期三" ,"星期四","星期五" ,"星期六","星期日"],
-          className: 'slots1',
-          textAlign: 'center'
-        },
-        {
-          divider: true,
-          content: '-',
-          className: 'slotsTime2'
-        },
-        {
-          flex: 1,
-          values: ["上午" ,"下午","晚上"],
-          className: 'slots3',
-          textAlign: 'center'
-        }  
       ],      
       slots: [
         {
@@ -218,7 +315,7 @@ export default {
       userInputNum:'',
       userInputPostion:'',
       positionInfos:[], // 获取到的上课地点数组
-      form: {'availTime': [], 'userId': '189', 'allowTry': true,'headurl':'1'},
+      form: {'availTime': [], 'userId': '189', 'allowTry': true,'headurl':''},
       turnEng: {
       	'上午': 'morning',
       	'中午': 'afternoon',
@@ -254,43 +351,30 @@ export default {
         document.getElementById('grade').style.display ='inline-block'
     },
     // ---------------------上课时间------------------------------//
-  	clickTime: function() { //点击弹出上课时间picker
+    alertPop: function() {
         this.popupVisible = true
     },
-  	onTimeChange (picker, values) { // 上课时间picker的值改变时
-      this.timeValues = values
-    },
-    cancelTime: function(){  //点击取消 关闭上课时间picker
+    cancel: function(){  //点击取消 关闭上课时间picker
       this.popupVisible = false
     },
-    submitTime: function(){
-      if( typeof(this.timeValues[0] ) == "undefined" || 
-      	  typeof(this.timeValues[1] ) == "undefined") {
-      	alert('请选择完整的时间段')
-      	return
-      }else if(this.isRelate()) {
-      	alert('不能选择重复的时间')
-      	return
-      }else {
-        this.popupVisible = false
-        var item = new Array()
-        for(var i=0; i<this.timeValues.length; i++ )
-      	  item[i] = this.timeValues[i]
-        this.timeList.push(item)
-      }
-    },
-    //判断是否重复
-    isRelate: function() {
-      for (var i = 0; i < this.timeList.length; i++) {
-      	if(this.timeList[i][0] === this.timeValues[0] && 
-      		this.timeList[i][1] === this.timeValues[1])
-      		return true
-      }
+    submit: function(){
+      this.popupVisible = false
+      var userChoTime = document.getElementsByName('availTime')
+      var availTime = []
+      for(var i = 0; i < userChoTime.length; i++){
+        if(userChoTime[i].checked === true)
+          availTime.push(userChoTime[i].value)
+      } 
+      this.availTime = availTime 
     },
     close: function (index){
-    	this.timeList.splice(index,1,['',''])
-        var removeObj = event.target.parentElement
-        removeObj.parentNode.removeChild(removeObj); 
+    	for(var i = 0; i < document.getElementsByName('availTime').length; i++){
+        if(this.availTime[index] === document.getElementsByName('availTime')[i].value){
+            document.getElementsByName('availTime')[i].checked = false 
+            break
+        }
+      } 
+      this.availTime.splice(index,1)
     },
     // --------------------上课地点------------------------------//
   	onValuesChange (picker, values) {
@@ -354,28 +438,41 @@ export default {
     buildAvailTime: function(){
       // 清空数组
       this.form.availTime.splice(0,this.form.availTime.length)
+      // debugger
       // 构造数组
-	  var array = this.timeList
-		for(var i=0; i<array.length; i++) {
-			var items = array[i]
-		    var day   = items[0]
-		    var time  = items[1]
-	    	var availItem = {
-	      	  day: '',
-	      	  timeOfDay: {
-	          morning: false ,
-	          afternoon:  false,
-	          night: false   
-	          }
-	        } 
-	        if(day != "" && time != ""){
-	        // 转化为英文 上午 morning 
-			    time = this.turnEng[time]
-			    availItem.day = day
-			    availItem.timeOfDay[time] = true
-			    this.form.availTime[i] = availItem
-		    }
-    	}
+      for(var i=0; i< this.availTime.length; i++) {
+        var day   = this.availTime[i].substring(0, 3)
+        var time  = this.availTime[i].substring(3, 5)
+        var availItem = {
+            day: '',
+            timeOfDay: {
+            morning: false ,
+            afternoon:  false,
+            night: false   
+            }
+          }
+          if(day != "" && time != ""){
+            // 转化为英文 上午 morning 
+            time = this.turnEng[time]
+            availItem.day = day
+            if(this.form.availTime.length > 0){
+              let flag = true
+              for(var j=0;j < this.form.availTime.length;j++){
+                if(this.form.availTime[j].day === availItem.day){
+                  this.form.availTime[j].timeOfDay[time] = true
+                  flag = false
+                }
+              }
+              if(flag === true){
+                availItem.timeOfDay[time] = true
+                this.form.availTime.push(availItem)
+              }
+            }else{
+              availItem.timeOfDay[time] = true
+              this.form.availTime.push(availItem)
+            }
+        }
+      }
     },
     // --------------------点击注册------------------------------//
     register: function() {
@@ -418,7 +515,6 @@ export default {
           this.stuGradeValue[0] = 12
         }
 		    this.form.grade = JSON.parse(this.stuGradeValue)
-        this.form.headurl = this.headurl
   	    let self = this
   	    this.buildAvailTime()
   	    var params = new URLSearchParams()
@@ -429,6 +525,7 @@ export default {
   	      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
   	      data: params
   	    }).then(function (response) {
+          self.popupDoRegitser = false
   	      window.location.href = '/tatuweb/index.html'   // 注册成功 回到首页
           })
         }else{
@@ -439,9 +536,10 @@ export default {
       //先进行校验
       this.$validator.validateAll().then((result) => {
         if (result) {
+          this.popupDoRegitser = true
           this.register()
         }else
-          alert('请填写好完整信息');
+          alert('请填写好完整信息')
       })     
     },
     classTypeChecked: function(){   	
@@ -481,7 +579,7 @@ export default {
   	  self.classTypeChecked()
   	  // 初始化 课程信息、有空时间、上课地点
   	  self.SubjectJsons = JSON.parse(sessionStorage.getItem('subject'))
-	  self.timeList = JSON.parse(sessionStorage.getItem('timeList'))
+	  self.availTime = JSON.parse(sessionStorage.getItem('availTime'))
 	  self.slots[1].values[1] = sessionStorage.getItem('position')
 	  this.userInputPostion = sessionStorage.getItem('position')
 	  if(self.stuGradeValue != null){
@@ -495,7 +593,7 @@ export default {
   beforeDestroy(){
     // debugger
     sessionStorage.setItem("registerForm",JSON.stringify(this.form))
-    sessionStorage.setItem("timeList",JSON.stringify(this.timeList))
+    sessionStorage.setItem("availTime",JSON.stringify(this.availTime))
     sessionStorage.setItem("position",this.userInputPostion === '' ? '拉动选择上课地点' :
     	this.userInputPostion)
     sessionStorage.setItem("subject",JSON.stringify(this.SubjectJsons))
@@ -509,7 +607,39 @@ export default {
 	height: 100%;
 	-webkit-overflow-scrolling : touch; 
 }
+#formVee{
+  position: absolute;
+  top:.02rem;
+  left: 4.7rem;
+  color:  #d81315;
+  font-size: .2rem
+}
+#formVeetel{
+  position: absolute;
+  top:.02rem;
+  left: 3.7rem;
+  color:  #d81315;
+  font-size: .2rem
+}
 /*-----------------上课时间------------------------------------*/
+input[type="checkbox"]{display: none;}
+.el-icon-circle-check{
+  font-size: .3rem
+}
+.time-checkbox:checked +  label.el-icon-circle-check{
+  color: #2cc17b;
+}
+table{
+  width: 100%;
+  color: #666;
+  font-size: .26rem;
+}
+td{
+  width: 12.5%;
+  border-top: .01rem solid #ccc;
+  border-left: .01rem solid #ccc;
+  text-align: center;
+}
 .el-icon-circle-cross{
 	color: #ccc;
 	margin-left: .6rem;
@@ -525,18 +655,19 @@ export default {
   width: 6.4rem;
 }
 .cancel{
+  width: 45%;
   float: left;
-  font-size: .3rem;
-  margin-bottom: .4rem;
-  margin-top:.3rem;
+  font-size: .28rem;
+  margin-bottom: .1rem;
+  margin-top:.1rem;
   margin-left: .3rem;
   color: #666
 }
 .addTime{
   float: right;
-  font-size: .3rem;
-  margin-bottom: .4rem;
-  margin-top:.3rem;
+  font-size: .28rem;
+  margin-bottom: .1rem;
+  margin-top:.1rem;
   margin-right: .3rem;
   color: #333
 }
@@ -573,11 +704,12 @@ section{
 	background-color: #fff;
 }
 section li{
-	height: .85rem;
-	line-height: .85rem;
-	font-size: .28rem;
-	margin-left: .22rem;
-	border-bottom: .01rem solid #efefef;
+  height: .85rem;
+  line-height: .85rem;
+  font-size: .28rem;
+  margin-left: .22rem;
+  border-bottom: .01rem solid #efefef;
+  position: relative;
 }
 section span{
 	display: block;
@@ -734,5 +866,19 @@ p{
 .subjectItem{
 	width: 64%;
 	float: right;
+}
+.el-icon-loading{
+  font-size: .8rem;
+  float: left;
+}
+.icon-loading{
+  margin-top: .3rem;
+  font-size: .3rem;
+  color: #2cc17b;
+}
+.popup-loading{
+  border-radius: .3rem;
+  padding: .3rem;
+  line-height: .3rem;
 }
 </style>

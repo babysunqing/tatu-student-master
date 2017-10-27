@@ -14,7 +14,7 @@
 			<div class="place"><p>擅长科目：{{ item.teacherInfo.subject }}</p></div>
 			<div class="progress">
 				<el-progress
-				:percentage="percentage" 
+				:percentage="0" 
 				status="success" 
 				:show-text="false"
 				:stroke-width="4"

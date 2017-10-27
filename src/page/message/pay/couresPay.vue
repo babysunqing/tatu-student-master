@@ -24,6 +24,7 @@ export default {
   name: 'couresPay',
   data () {
     return {
+      signature:'',
       values:[1,0],
       create: 'create',
       payPrice: 0,
@@ -47,8 +48,15 @@ export default {
     }
   },
   created () {
-    // debugger
+    let self = this
     this.item = this.$route.params.item
+    // debugger
+    this.url = window.location.href
+    axios.get('/tatuweb/wechat/JSAPIConfig?url=' + self.url).then(function (res) {
+      if(res.data.data != ''){
+        self.signature = res.data.data.signature
+      }
+    })
   },
   methods: {
     onValuesChange (picker, values) {
@@ -64,7 +72,6 @@ export default {
     stuPay: function () {
       var params = new URLSearchParams()
       var stuJson = {}
-      // debugger
       stuJson.payNum = this.couresNum
       stuJson.payPrice = this.payPrice
       stuJson.courseId = this.courseId
@@ -81,18 +88,41 @@ export default {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: params
       }).then(function (res) {
-        self.data = res.data.data  
+        self.data = res.data.data
         wx.config({
-            // debug: true,
+            debug: true,
             appId: self.data.appId,
-            timestamp:self.data.timestamp,
+            timestamp:self.data.timeStamp,
             nonceStr: self.data.nonceStr,
-            signature: self.data.signature,
+            signature: self.signature,
             jsApiList: ['chooseWXPay']
         })
-        // window.location.href = '/tatuweb/paySuccess'
       })
     }
+  },
+  mounted (){
+    wx.ready(function() {
+      wx.chooseWXPay({  
+        appId: self.data.appId,  
+        timestamp: self.data.timeStamp,  
+        nonceStr: self.data.nonceStr, 
+        package: self.data.packages,
+        signType: self.data.signType, 
+        paySign: self.data.paySign,  
+        success: function(res) {  
+            // 支付成功后的回调函数  
+            if (res.errMsg == "chooseWXPay:ok") {
+                alert('支付成功')  
+            } else {  
+                alert(res.errMsg)  
+            }  
+        },  
+        cancel: function(res) {  
+            //支付取消  
+            alert('支付取消') 
+        }  
+      })
+    })
   }
 }
 </script> 

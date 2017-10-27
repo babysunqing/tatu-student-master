@@ -47,7 +47,7 @@ export default {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: params
       }).then(function (response) {
-        window.location.href = '/tatuweb/paySuccess' // 续费成功
+        window.location.href = '/tatuweb/paySuccess'
       })
     }
   }

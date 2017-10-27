@@ -9,7 +9,10 @@
 				<h2>{{ item.courseInfo.subject }}</h2>
 			</div>			
 			<div class="time">
-			<p>上课时间：{{ item.courseInfo.timeOfDay }}</p>
+				<p>上课时间：{{ item.courseInfo.startTime }}</p>			
+			</div>
+			<div class="place">
+				<p>{{ startTime }} ~ {{ endTime }}</p>
 			</div>
 			<div class="place"><p>上课地点：科技园校区</p></div>
 			<div class="progress">
@@ -56,6 +59,15 @@ export default {
   },
   created () {
    this.item = this.$route.params.item
+   var startTime = this.item.courseInfo.startTime
+   var endTime = this.item.courseInfo.endTime
+   this.item.day = new Date(parseInt(startTime) * 1000).toLocaleDateString()
+
+   this.startTime = new Date(parseInt(startTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+   this.startTime = this.startTime.substr(0,this.startTime.length-3)
+
+   this.endTime = new Date(parseInt(endTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
+   this.endTime = this.endTime.substr(0,this.endTime.length-3)
   }
 }
 </script> 
@@ -157,6 +169,7 @@ h2{
 .top-right p{
 	color: #2cc17b;
 	font-size: .26rem;
+	margin-top: .46rem;
 }
 .plan{
 	margin-top: .5rem;

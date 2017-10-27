@@ -11,8 +11,8 @@
 			<p>暂无评价</p>
 		</div>
 		<section id="content1" ><!--- 已评价 -->
-			<div class="item"  v-for="(item,index) in classesAndPeriod">
-				<router-link :to="'/couresDetail?index=' + index">
+			<div class="item"  v-for="(item,index) in arrDone">
+				<router-link :to="{name: 'evaluationDetail', params: {item: JSON.stringify(item)}}">
 					<img :src="item.teacherHeadUrl">
 					<div style="float:left width：100%">
 						<div class="top" style="text-align:left">
@@ -22,24 +22,27 @@
 							<p>查看详情 >></p>
 						</div>
 						<div class="middle">
-							<h3>科技园校区 · {{ item.courseInfo.timeOfDay }}</h3>
+							<h3>{{ item.courseInfo.userId }} · {{ item.checkins.startTime }}</h3>
 						</div>	
 						<div class="bottom">
 							<el-progress class="progress"
-							:percentage="item.courseInfo.totalPeriod * 100 / item.courseInfo.payClass" 
+							:percentage="item.evaluates.period * 100 / item.courseInfo.payClass" 
 							status="success" 
 							:show-text="false"
 							:stroke-width="4"
 							></el-progress>
-							<p>{{ item.courseInfo.totalPeriod }}/{{ item.courseInfo.payClass }}次课</p>
+							<p v-if="item.evaluates.period >= 1">
+						 		{{ item.evaluates.period }} /{{  item.courseInfo.payClass }}次课
+						    </p>												
+						    <p v-else>试课</p>
 						</div>	
 					</div>	
 				</router-link>	
 			</div>	
 		</section>
 		<section id="content2"><!--- 待评价 -->	
-			<div class="item" v-for="(item,index) in classesAndPeriod"> 
-				<router-link :to="'/couresDetailDone?index=' + index">
+			<div class="item" v-for="item in arr"> 
+				<router-link :to="{name: 'noEvaluationDetail', params: {item: JSON.stringify(item)}}">
 					<img :src="item.teacherHeadUrl">
 					<div style="float:left width：100%">
 						<div class="top" style="text-align:left">
@@ -49,41 +52,19 @@
 							<p>查看详情 >></p>					
 						</div>
 						<div class="middle">
-							<h3>科技园校区 · {{ item.courseInfo.timeOfDay }}</h3>
+							<h3>{{ item.courseInfo.userId }} · {{ item.checkins.startTime }}</h3>
 						</div>	
 						<div class="bottom">
 							<el-progress class="progress"
-							:percentage="item.courseInfo.totalPeriod * 100 / item.courseInfo.payClass" 
+							:percentage="item.checkins.period * 100 / item.courseInfo.payClass" 
 							status="success" 
 							:show-text="false"
 							:stroke-width="4"
 							></el-progress>
-							<p>{{ item.courseInfo.totalPeriod }}/{{ item.courseInfo.payClass }}次课</p>
-						</div>	
-					</div>	
-				</router-link>		
-			</div>
-			<div class="item" v-for="(item,index) in tryClasses"><!--- 已经上的试课 -->	
-				<router-link :to="'/tryClassDetailDone?index=' + index">
-					<img :src="item.headurl">
-					<div style="float:left width：100%">
-						<div class="top" style="text-align:left">
-							<h1>{{ item.teacherName}}·</h1>
-							<h2>{{ item.courseInfo.classType }}·</h2>
-							<h2>{{ item.courseInfo.subject }}</h2>
-							<p>查看详情 >></p>					
-						</div>
-						<div class="middle">
-							<h3>科技园校区 · {{ item.courseInfo.timeOfDay }}</h3>
-						</div>	
-						<div class="bottom">
-							<el-progress class="progress"
-							:percentage="0" 
-							status="success" 
-							:show-text="false"
-							:stroke-width="4"
-							></el-progress>
-							<p>试课</p>
+							<p v-if="item.checkins.period >= 1">
+								{{ item.checkins.period }} /{{ item.courseInfo.payClass }}次课
+							</p>						
+							<p v-else>试课</p>
 						</div>	
 					</div>	
 				</router-link>		
@@ -102,7 +83,9 @@ export default {
       isDisplay:false,
       normal: true,
       classesAndPeriod: [],
-      tryClasses: []
+      tryClasses: [],
+      arrDone:[],
+      arr:[]
     }
   },
   created () {
@@ -110,12 +93,84 @@ export default {
     this.studentId = sessionStorage.getItem('studentId')
     this.$http.get('/tatuweb/getClassesByStudentId?studentId=' + self.studentId).then((response) => {
       // debugger
-      this.classesAndPeriod = response.body.data.classesAndPeriod
-      this.tryClasses = response.body.data.tryClasses
-      if (this.tryClasses != "" || this.classesAndPeriod != "") {
+      this.classes = response.body.data.classesAndPeriod
+      if (this.classes != "") {
         	this.isDisplay = true
         	this.normal = false // 判断是否隐藏背景图片
       }
+      var arr = [] // 未评价数组
+  	  var arrDone = [] //已评价数组
+  	  if(this.classes.length > 0){         
+          for(var i = 0;i < this.classes.length; i++){           
+            for(var j = 0; j < this.classes[i].checkins.length; j++){
+            	var flag = false
+                if(this.classes[i].evaluates.length > 0){
+	            	for(var z = 0; z < this.classes[i].evaluates.length ; z++){
+	              	if(this.classes[i].checkins[j].period === this.classes[i].evaluates[z].period){
+	              	  flag = true            		
+	              	  var obj = {  //把需要的数据封装成一个obj 再push进数组 这样可以直接遍历数组
+	              	  	courseInfo: this.classes[i].courseInfo,
+	              	  	teacherHeadUrl: this.classes[i].teacherHeadUrl,
+	              	  	teacherName: this.classes[i].teacherName,
+	              	  	evaluates: this.classes[i].evaluates[z],
+	              	  	checkins: this.classes[i].checkins[j]
+	              	  }	
+	              	  arrDone.push(obj)   
+	              	}             	
+	              }
+                }
+                if(flag === false){
+                	var objNot = {
+	              		courseInfo: this.classes[i].courseInfo,
+	              		teacherHeadUrl: this.classes[i].teacherHeadUrl,
+	              	  	teacherName: this.classes[i].teacherName,
+	              	  	checkins: this.classes[i].checkins[j]
+	              	}
+	              	arr.push(objNot)
+	              	console.log(arr)
+	            }             
+            }          
+          }
+        }
+        // debugger
+        this.arrDone = arrDone
+        this.arr = arr
+        if(this.arrDone.length > 0){
+        	for( i = 0; i < this.arrDone.length; i++){
+        		if(this.arrDone[i].courseInfo.classType === '1'){
+					this.arrDone[i].courseInfo.classType = '辅导课'
+				}else if(this.arrDone[i].courseInfo.classType === '2'){
+					this.arrDone[i].courseInfo.classType = '教学课'
+				}				
+				var startTime = this.arrDone[i].checkins.startTime
+				this.arrDone[i].checkins.startTime = new Date(parseInt(startTime) * 1000).toLocaleDateString()				
+        	}
+   //      	for( i = 0; i < this.arrDone.length; i++){
+			// 	for(var j=0;j < this.position.length;j++){ // 把返回的数组里的userID转换成相应的地址
+   //    			  if(this.arrDone[i].courseInfo.userId === this.position[j].userId){
+   //    				this.arrDone[i].courseInfo.userId = this.position[j].name     			    
+   //    		      }
+   //    		    }
+			// }
+        }
+        if(this.arr.length > 0){
+        	for( i = 0; i < this.arr.length; i++){
+        		if(this.arr[i].courseInfo.classType === '1'){
+					this.arr[i].courseInfo.classType = '辅导课'
+				}else if(this.arr[i].courseInfo.classType === '2'){
+					this.arr[i].courseInfo.classType = '教学课'
+				}
+				var startTime = this.arr[i].checkins.startTime
+				this.arr[i].checkins.startTime = new Date(parseInt(startTime) * 1000).toLocaleDateString()				
+        	} 
+       //  	for( i = 0; i < this.arr.length; i++){
+	      //   	for(var j=0;j < this.position.length;j++){ // 把返回的数组里的userID转换成相应的地址
+	  			 //  if(this.arr[i].courseInfo.userId === this.position[j].userId){
+	  				// this.arr[i].courseInfo.userId = this.position[j].name     			    
+	  		  //     }
+	      // 		} 
+      	// 	}      
+        }
     })
   }
 }
@@ -123,6 +178,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container{
+	overflow: auto;
+	height: 100%;
+	-webkit-overflow-scrolling : touch; 
+}
 .display{
 	display: none;
 }

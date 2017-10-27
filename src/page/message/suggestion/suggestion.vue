@@ -1,8 +1,8 @@
 <template>
 <div class="container" v-title="'投诉反馈'">
-<div  v-for="(item,index) in complainFeedbacks"> 
+<div  v-for="item in complainFeedbacks"> 
 	<!-- <div class="time"><span>{{ item.evaluateRecord.time }}</span></div> -->
-	<router-link :to="{name: 'msgSuggestionDetail', params: {index: index}}">
+	<router-link :to="{name: 'msgSuggestionDetail', params: {item: item}}">
 	<div class="main">
 		<div class="top">
 			<img src="../../../assets/icon_complaints.png" alt="img">
@@ -20,7 +20,7 @@
 			</div>
 			<div style="margin-top:.24rem">
 				<h1>投诉时间：</h1>
-				<p>{{ item.evaluateRecord.time }}</p>
+				<p>{{ item.evaluateRecord.day }} &nbsp{{ item.evaluateRecord.hours }}</p>
 			</div>
 			<div style="margin-top:.24rem">
 				<h1>具体投诉内容：</h1>
@@ -56,11 +56,22 @@ export default {
     this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
       // debugger
       this.complainFeedbacks = response.body.data.complainFeedbacks
-      for (var i = 0; i <= this.complainFeedbacks.length; i++) {
-        var time = this.complainFeedbacks[i].courseInfo.createTime
-        time = new Date(parseInt(time) * 1000).toLocaleString().replace(/年|月/g, '-').replace(/日/g, ' ')
-        this.complainFeedbacks[i].evaluateRecord.time = time
-      }
+      if(this.complainFeedbacks.length > 0){
+      	for (var i = 0; i <= this.complainFeedbacks.length; i++) {
+	        var time = this.complainFeedbacks[i].courseInfo.createTime
+	        var day = new Date(parseInt(time) * 1000).toLocaleDateString()
+	        var hours = new Date(parseInt(time) * 1000).toLocaleTimeString('chinese',{hour12:false})
+	        hours = hours.substr(0,hours.length-3)
+	        this.complainFeedbacks[i].evaluateRecord.day = day
+	        this.complainFeedbacks[i].evaluateRecord.hours = hours
+
+	        if(this.complainFeedbacks[i].courseInfo.classType === '1'){
+	      	   this.complainFeedbacks[i].courseInfo.classType = '辅导课'
+	        }else if(this.complainFeedbacks[i].courseInfo.classType === '2'){
+	      	   this.complainFeedbacks[i].courseInfo.classType = '教学课'
+	        }
+	    }
+      }      
     })
   }
 }

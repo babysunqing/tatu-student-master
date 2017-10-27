@@ -3,8 +3,8 @@
   <router-link  to="/newSuggestion">
     <div class="new">+新建建议/申诉</div>
   </router-link>
-  <div class="item"  v-for="(item,index) in suggestions"> 
-    <router-link  :to="'/suggestionDetail?index=' + index">
+  <div class="item"  v-for="item in suggestions">
+    <router-link :to="{name: 'suggestionDetail', params: {item: item}}">
       <img :src="studentInfo.headurl">
         <div class="top" style="text-align:left">
           <h1>{{ item.type }}·</h1>
@@ -33,18 +33,11 @@ export default {
     this.$http.get('/tatuweb/studentSuggestions?studentId=' + self.studentId).then((response) => {
       // debugger
       this.suggestions = response.body.data.suggestions
-      // for (var i = 0; i <= this.suggestions.length; i++) {
-      //   var time = this.suggestions[i].createTime
-      //   time = new Date(parseInt(time) * 1000).toLocaleDateString()
-      //   this.suggestions[i].time = time
-      // }
-      var init = 'init'
-      var dealing = 'dealing'
-      for (var i = 0; i <= this.suggestions.length; i++) {
-        if (this.suggestions[i].status === init) {
+      for (var i = 0; i < this.suggestions.length; i++) {
+        if (this.suggestions[i].status === 'init') {
           // debugger
           this.suggestions[i].status = '未处理'
-        } else if (this.suggestions[i].status === dealing) {
+        } else if (this.suggestions[i].status === 'dealing') {
           this.suggestions[i].status = '待处理'
         } else {
           this.suggestions[i].status = '已处理'
