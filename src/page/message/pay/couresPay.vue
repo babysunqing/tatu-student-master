@@ -50,7 +50,6 @@ export default {
   created () {
     let self = this
     this.item = this.$route.params.item
-    debugger
     this.url = window.location.href
     axios.get('/tatuweb/wechat/JSAPIConfig?url=' + self.url).then(function (res) {
       if(res.data.data != ''){
@@ -60,11 +59,12 @@ export default {
   },
   methods: {
     onValuesChange (picker, values) {
+      if(typeof(values[0])=="undefined")
+        return
       if (values[0] > values[1]) {
         picker.setSlotValue(1, values[0])
         picker.getSlotValue(1, values[0]) 
       }
-      // debugger
       this.couresNum = values[0] 
       this.payPrice = this.item.courseInfo.price * this.couresNum
       this.payPrice = this.payPrice.toFixed(2) 
