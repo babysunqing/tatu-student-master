@@ -4,18 +4,17 @@
     <form method="post">
       <div class="title">
         <div class="line"></div>      
-        <input name="type" type="radio" class="regular-radio" value="suggestion" id="suggestion" v-model="suggestionContent.type" />
-        <label for="suggestion"></label>建议
-       <input name="type" type="radio" class="regular-radio" value="complaint" id="complaint" v-model="suggestionContent.type" />
-        <label for="complaint"></label>申诉
+        <input name="type" type="radio" class="regular-radio" value="suggestion" id="suggestion" v-model="type" />
+        <label for="suggestion"></label> 建议
+       <input name="type" type="radio" class="regular-radio" value="complaint" id="complaint" v-model="type" />
+        <label for="complaint"></label> 申诉
       </div>
       <div class="plandetail"> 
         <textarea placeholder="请留下对平台的建议或申诉" name="suggestionContent" v-model="suggestionContent"></textarea>
       </div>
-      
     </form>
-     <div class="finish"><button  @click="finish()">完成</button></div>
   </div>
+  <div class="finish" @click="finish()">完成</div>
 </div>
 </template>
 
@@ -36,21 +35,26 @@ export default {
       this.userId = sessionStorage.getItem('userId')
       var params = new URLSearchParams()
       var stuJson = {}
-      debugger
       stuJson.suggestionContent = this.suggestionContent
-      stuJson.type = document.getElementsByName('type').value
+      // debugger
+      stuJson.type = this.type
       stuJson.userId = this.userId
       stuJson.studentId = this.studentId
-      stuJson.createTime = new Date().getTime() / 1000
-      stuJson.createTime = stuJson.createTime.toFixed(0) 
+      stuJson.createTime = (new Date().getTime() / 1000).toFixed(0)
       params.append('studentSuggestion', JSON.stringify(stuJson))
+      if(stuJson.type === undefined ){ 
+        alert('请选择建议申诉类型')
+      }
+      if( stuJson.suggestionContent === '' ){
+        alert('请先填写申诉或建议')
+      }
       axios({
         method: 'post',
         url: '/tatuweb/studentCommitSuggestion',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: params
       }).then(function (response) {
-        window.location.href = '/tatuweb/paySuccess'
+        window.history.go(-1)
       })
     }
   }
@@ -95,13 +99,20 @@ h1{
   border: 0px;
   margin-right: .3rem;
   margin-left: .52rem;
+  margin-top: .3rem;
   line-height: .35rem;
   min-height: 4.1rem;
 }
 .finish{
-  float: right;
-  margin-right: .3rem;
-  margin-top:-.8rem;
+  width: 100%;
+  height: .88rem;
+  color: #fff;
+  font-size: .34rem;
+  background-color:#2cc17b; 
+  text-align: center;
+  line-height: .88rem;
+  position: fixed;
+  bottom: 0;
 }
 button{
   font-size: .3rem;

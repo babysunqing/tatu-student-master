@@ -24,6 +24,7 @@ export default {
   name: 'couresPay',
   data () {
     return {
+      data:{},
       signature:'',
       values:0,
       create: 'create',
@@ -50,11 +51,20 @@ export default {
   created () {
     let self = this
     this.item = this.$route.params.item
+    this.courseId =  this.item.courseInfo.courseId
+    this.studentId =  sessionStorage.getItem('studentId')
+    // debugger
     this.url = window.location.href
     axios.get('/tatuweb/wechat/JSAPIConfig?url=' + self.url).then(function (res) {
-      if(res.data.data != ''){
-        self.signature = res.data.data.signature
-      }
+      self.data = res.data.data
+      wx.config({
+            debug: true,
+            appId: self.data.appId,
+            timestamp:self.data.timeStamp,
+            nonceStr: self.data.nonceStr,
+            signature: self.data.signature,
+            jsApiList: ['chooseWXPay']
+        })
     })
   },
   methods: {
@@ -67,7 +77,7 @@ export default {
       }
       this.couresNum = values[0] 
       this.payPrice = this.item.courseInfo.price * this.couresNum
-      this.payPrice = this.payPrice.toFixed(2) 
+      // this.payPrice = this.payPrice.toFixed(2)
     },
     stuPay: function () {
       var params = new URLSearchParams()
@@ -76,7 +86,7 @@ export default {
       stuJson.payPrice = this.payPrice
       stuJson.courseId = this.courseId
       stuJson.studentId = this.studentId
-      stuJson.createTime = new Date().getTime()
+      stuJson.createTime = (new Date().getTime() /1000).toFixed(0)
       stuJson.status = this.create
       params.append('studentPaymentRecord', JSON.stringify(stuJson))
       params.append('openid', sessionStorage.getItem('openid'))
@@ -88,41 +98,29 @@ export default {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: params
       }).then(function (res) {
-        self.data = res.data.data
-        wx.config({
-            debug: true,
-            appId: self.data.appId,
-            timestamp:self.data.timeStamp,
-            nonceStr: self.data.nonceStr,
-            signature: self.signature,
-            jsApiList: ['chooseWXPay']
+        wx.chooseWXPay({
+          appId: res.data.data.appId,
+          timestamp: res.data.data.timeStamp,
+          nonceStr: res.data.data.nonceStr,
+          package: res.data.data.packages,
+          signType: res.data.data.signType,
+          paySign: res.data.data.paySign,
+          success: function(res) {
+              // 支付成功后的回调函数
+              if (res.errMsg == "chooseWXPay:ok") {
+                  alert('支付成功')
+                  window.history.go(-2)
+              } else {
+                  alert(res.errMsg)
+              }
+          },
+          cancel: function(res) {
+              //支付取消
+              alert('支付取消')
+          }  
         })
       })
     }
-  },
-  mounted (){
-    wx.ready(function() {
-      wx.chooseWXPay({  
-        appId: self.data.appId,  
-        timestamp: self.data.timeStamp,  
-        nonceStr: self.data.nonceStr, 
-        package: self.data.packages,
-        signType: self.data.signType, 
-        paySign: self.data.paySign,  
-        success: function(res) {  
-            // 支付成功后的回调函数  
-            if (res.errMsg == "chooseWXPay:ok") {
-                alert('支付成功')  
-            } else {  
-                alert(res.errMsg)  
-            }  
-        },  
-        cancel: function(res) {  
-            //支付取消  
-            alert('支付取消') 
-        }  
-      })
-    })
   }
 }
 </script> 

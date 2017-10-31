@@ -54,6 +54,15 @@ export default {
     }
   },
   created () {
+  	if((navigator.userAgent.match(/iPhone/i))) {
+	    var ver = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/)
+	    ver = parseInt(ver[1], 10) 
+	    if(ver < 9)  
+	    {  
+	       alert('您的IOS版本过低，请升级后体验!')
+	       return false
+	    }
+    }
     let self = this
     if(self.GetQueryString('openid') != null){
       this.openid = self.GetQueryString('openid')
@@ -72,9 +81,9 @@ export default {
       		if(this.indexData[i].classType === '1'){
       			this.indexData[i].classType = '辅导课'
       		}else if(this.indexData[i].classType === '2'){
-      			this.indexData[i].classType === '教学课'
+      			this.indexData[i].classType = '教学课'
       		}else{
-      			this.indexData[i].classType === '辅导课/教学课'
+      			this.indexData[i].classType = '辅导课/教学课'
       		}
       	}
       }

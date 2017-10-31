@@ -66,6 +66,15 @@ export default {
   },
   methods: {
     isLogin: function () {
+      if((navigator.userAgent.match(/iPhone/i))) {
+        var ver = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/)
+        ver = parseInt(ver[1], 10) 
+        if(ver < 9)  
+        {  
+           alert('您的IOS版本过低，请升级后体验!')
+           return false
+        }
+      }
       let self = this
       this.openid = sessionStorage.getItem('openid')
       axios.get('/tatuweb/studentLogin?openid=' + self.openid)
