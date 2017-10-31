@@ -43,7 +43,7 @@ export default {
   },
   created () {
     let self = this
-    this.teacherId = sessionStorage.getItem('studentId')
+    this.studentId = sessionStorage.getItem('studentId')
     this.$http.get('/tatuweb/studentClassesInfo?studentId=' + self.studentId).then((response) => {
       this.classes = response.body.data
       if (this.classes.length > 0) {

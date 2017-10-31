@@ -67,6 +67,17 @@ export default {
       // debugger
       this.indexData = response.body.data.teachers
       this.banner = response.body.data.banner
+      if(this.indexData != null){
+      	for(var i=0; i < this.indexData.length; i++){
+      		if(this.indexData[i].classType === '1'){
+      			this.indexData[i].classType = '辅导课'
+      		}else if(this.indexData[i].classType === '2'){
+      			this.indexData[i].classType === '教学课'
+      		}else{
+      			this.indexData[i].classType === '辅导课/教学课'
+      		}
+      	}
+      }
     })
     this.$http.get('/tatuweb/studentLogin?openid=' + self.openid).then((response) => {
       // debugger

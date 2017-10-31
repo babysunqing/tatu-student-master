@@ -4,8 +4,10 @@
     <form method="post">
       <div class="title">
         <div class="line"></div>      
-        <label><input name="type" type="radio"  value="" v-model="suggestion" />建议 </label>
-        <label><input name="type" type="radio"  value=""  v-model="complaint" />申诉 </label>
+        <input name="type" type="radio" class="regular-radio" value="suggestion" id="suggestion" v-model="suggestionContent.type" />
+        <label for="suggestion"></label>建议
+       <input name="type" type="radio" class="regular-radio" value="complaint" id="complaint" v-model="suggestionContent.type" />
+        <label for="complaint"></label>申诉
       </div>
       <div class="plandetail"> 
         <textarea placeholder="请留下对平台的建议或申诉" name="suggestionContent" v-model="suggestionContent"></textarea>
@@ -34,12 +36,13 @@ export default {
       this.userId = sessionStorage.getItem('userId')
       var params = new URLSearchParams()
       var stuJson = {}
-      // debugger
+      debugger
       stuJson.suggestionContent = this.suggestionContent
-      stuJson.type = this.type
+      stuJson.type = document.getElementsByName('type').value
       stuJson.userId = this.userId
       stuJson.studentId = this.studentId
-      stuJson.createTime = new Date().getTime()
+      stuJson.createTime = new Date().getTime() / 1000
+      stuJson.createTime = stuJson.createTime.toFixed(0) 
       params.append('studentSuggestion', JSON.stringify(stuJson))
       axios({
         method: 'post',
@@ -108,6 +111,30 @@ button{
 }
 form{
   font-size: .3rem
+}
+.regular-radio {
+  display: none;
+}
+.regular-radio + label {
+  -webkit-appearance: none;
+  border: 1px solid #eee;
+  padding: .14rem;
+  border-radius: .14rem;
+  display: inline-block;
+  position: relative;
+  top: .05rem;
+}
+.regular-radio:checked + label:after {
+  content: ' ';
+  width: .2rem;
+  height: .2rem; 
+  border-radius: .2rem;
+  position: absolute;
+  top: -.01rem;
+  left: -.05em;
+  background: #2cc17b;
+  border: 3px #eee solid;
+  -webkit-transition:background ease-in .1s;
 }
 </style>
 

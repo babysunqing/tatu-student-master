@@ -25,7 +25,7 @@ export default {
   data () {
     return {
       signature:'',
-      values:[1,0],
+      values:0,
       create: 'create',
       payPrice: 0,
       couresNum: 10,
@@ -40,7 +40,7 @@ export default {
         },
         {
           flex: 1,
-          values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
+          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
           className: 'slot2',
           textAlign: 'center'
         }
@@ -50,7 +50,7 @@ export default {
   created () {
     let self = this
     this.item = this.$route.params.item
-    // debugger
+    debugger
     this.url = window.location.href
     axios.get('/tatuweb/wechat/JSAPIConfig?url=' + self.url).then(function (res) {
       if(res.data.data != ''){
@@ -62,12 +62,12 @@ export default {
     onValuesChange (picker, values) {
       if (values[0] > values[1]) {
         picker.setSlotValue(1, values[0])
-        picker.getSlotValue(1, values[0])          
+        picker.getSlotValue(1, values[0]) 
       }
       // debugger
       this.couresNum = values[0] 
       this.payPrice = this.item.courseInfo.price * this.couresNum
-      this.payPrice = this.payPrice.toFixed(2)
+      this.payPrice = this.payPrice.toFixed(2) 
     },
     stuPay: function () {
       var params = new URLSearchParams()
@@ -78,7 +78,7 @@ export default {
       stuJson.studentId = this.studentId
       stuJson.createTime = new Date().getTime()
       stuJson.status = this.create
-      params.append('StudentPaymentRecord', JSON.stringify(stuJson))
+      params.append('studentPaymentRecord', JSON.stringify(stuJson))
       params.append('openid', sessionStorage.getItem('openid'))
       params.append('createIP', returnCitySN["cip"])
       let self = this

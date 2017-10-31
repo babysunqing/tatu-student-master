@@ -33,8 +33,8 @@ export default {
   created () {
     let self = this
     self.index = self.GetQueryString('index')
-    this.teacherId = sessionStorage.getItem('teacherId')
-    this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
+    this.studentId = sessionStorage.getItem('studentId')
+    this.$http.get('/tatuweb/studentGetMsg?studentId=' + self.studentId).then((response) => {
       this.pay = response.body.data.needPayments[self.index]
       this.courseId = response.body.data.needPayments[self.index].courseInfo.courseId
       this.studentId = response.body.data.needPayments[self.index].courseInfo.studentId

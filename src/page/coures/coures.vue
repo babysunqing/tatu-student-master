@@ -42,7 +42,7 @@
 				<img :src="item.headurl">
 				<div style="float:left width：100%">
 					<div class="top" style="text-align:left">
-						<h1>{{ item.teacherName}}·</h1>
+						<h1>{{ item.name}}·</h1>
 						<h2>{{ item.courseInfo.classType }}·</h2>
 						<h2>{{ item.courseInfo.subject }}</h2>
 						<p>查看详情 >></p>					
@@ -127,6 +127,7 @@ export default {
       this.tryClasses = response.body.data.tryClasses
       axios.get('/tatuweb/getBackgroundInfo').then(function (res) {
       	self.position = res.data.data
+      	sessionStorage.setItem('position', JSON.stringify(self.position)) 
       	for(var i=0;i < self.position.length;i++){ // 把返回的数组里的userID转换成相应的地址
       		    for(var j=0;j < self.classesAndPeriod.length;j++){
       			    if(self.classesAndPeriod[j].courseInfo.userId === self.position[i].userId){

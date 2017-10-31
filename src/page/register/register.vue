@@ -336,7 +336,7 @@ export default {
     },
     submitGrade: function(){
       if( typeof(this.gradeValue[0] ) == "undefined") {
-      	alert('请选择就读年级！')
+      	alert('请选择就读年级!')
       	return
       }else {
         this.popup = false
@@ -565,8 +565,8 @@ export default {
       	}     	  
     })
     self.openid = sessionStorage.getItem('openid')
-    axios.post('/tatuweb/wechat/userInfo?openid=' + self.openid).then(function (response) {
-        self.headurl = response.data      
+    axios.post('/tatuweb/wechat/userInfo?openid=' + self.openid).then(function (res) {
+        self.headurl = res.data.data.headimgurl     
     })
   },
   mounted () {
@@ -579,19 +579,19 @@ export default {
   	  self.classTypeChecked()
   	  // 初始化 课程信息、有空时间、上课地点
   	  self.SubjectJsons = JSON.parse(sessionStorage.getItem('subject'))
-	  self.availTime = JSON.parse(sessionStorage.getItem('availTime'))
-	  self.slots[1].values[1] = sessionStorage.getItem('position')
-	  this.userInputPostion = sessionStorage.getItem('position')
-	  if(self.stuGradeValue != null){
-	  	self.stuGradeValue = JSON.parse(sessionStorage.getItem('stuGradeValue'))
-	  	document.getElementById('grade').style.display='none'
-	  }
+	    self.availTime = JSON.parse(sessionStorage.getItem('availTime'))
+	    self.slots[1].values[1] = sessionStorage.getItem('position')
+	    this.userInputPostion = sessionStorage.getItem('position')
+	  // if(self.stuGradeValue != null){
+	  // 	self.stuGradeValue = JSON.parse(sessionStorage.getItem('stuGradeValue'))
+	  // 	document.getElementById('grade').style.display='none'
+	  // }
     }
     self.form.openid = sessionStorage.getItem('openid')
     self.form.registerTime = parseInt(new Date().getTime() / 1000)   
   },
   beforeDestroy(){
-    // debugger
+    debugger
     sessionStorage.setItem("registerForm",JSON.stringify(this.form))
     sessionStorage.setItem("availTime",JSON.stringify(this.availTime))
     sessionStorage.setItem("position",this.userInputPostion === '' ? '拉动选择上课地点' :

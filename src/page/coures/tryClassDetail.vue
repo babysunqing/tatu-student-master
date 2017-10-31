@@ -14,7 +14,7 @@
 			<div class="place">
 				<p>{{ startTime }} ~ {{ endTime }}</p>
 			</div>
-			<div class="place"><p>上课地点：科技园校区</p></div>
+			<div class="place"><p>上课地点：{{ item.courseInfo.userId }}</p></div>
 			<div class="progress">
 				<el-progress class="progress"
 				:percentage="0" 

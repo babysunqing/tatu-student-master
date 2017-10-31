@@ -73,11 +73,30 @@ export default {
     this.$http.get('/tatuweb/studentLogin?openid=' + self.openid).then((response) => {
       this.data = response.body.data
       this.studentInfo = response.body.data.studentInfo
-      this.value1 = response.body.data.studentInfo.evaAveOneS
-      this.value2 = response.body.data.studentInfo.evaAveTwoS
-      this.value3 = response.body.data.studentInfo.evaAveThreeS
-      this.value4 = response.body.data.studentInfo.evaAveFourS
-      
+      this.value1 =  this.studentInfo.evaAveOneS
+      this.value2 = this.studentInfo.evaAveTwoS
+      this.value3 = this.studentInfo.evaAveThreeS
+      this.value4 = this.studentInfo.evaAveFourS
+      if(this.studentInfo.evaAveOneS === null){
+        this.value1 = 0
+	  }else{
+	    this.value1 = this.studentInfo.evaAveOneS
+	  }
+	  if(this.studentInfo.evaAveTwoS === null){
+	    this.value2 = 0
+	  }else{
+	    this.value2 = this.studentInfo.evaAveTwoS
+	  } 
+	  if(this.studentInfo.evaAveThreeS === null){
+	    this.value3 = 0
+	  }else{
+	    this.value3 = this.studentInfo.evaAveThreeS
+	  }
+	  if(this.studentInfo.evaAveFourS === null){
+	    this.value4 = 0
+	  }else{
+	    this.value4 = this.studentInfo.evaAveFourS
+	  } 
     })
   }
 }

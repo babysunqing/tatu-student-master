@@ -65,7 +65,6 @@ export default {
     return {
       data: {},
       studentInfo: {},
-      teacherId: '',
       period: 0,
       studentNum: 0,
       goal: 5

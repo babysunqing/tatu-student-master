@@ -32,7 +32,7 @@
       <img src="../../assets/icon_pay.png">
       <div class="msg-content">
         <div class="msg-title">续费通知</div>
-        <div class="msg">您的教学课需要续费了</div>
+        <div class="msg">您的课程需要续费了</div>
       </div>
     </router-link>
   </div>
@@ -97,25 +97,21 @@ export default {
       if(self.match.length > 0){ //如果付费消息数组长度大于0 ，则显示这一栏
         self.isdisplay1 = false
         self.normal = true
-      }else{
         self.match = res.data.data.courseInfos[0]
       }
       if(self.suggestion.length > 0){
         self.isdisplay2 = false
         self.normal = true
-      }else{
         self.suggestion = res.data.data.complainFeedbacks[0]
       }
       if(self.needPayments.length > 0){
         self.isdisplay3 = false
         self.normal = true
-      }else{
         self.needPayments = res.data.data.needPayments[0]
       }
       if(self.plan.length > 0){
         self.isdisplay4 = false
         self.normal = true
-      }else{
         self.plan = res.data.data.courseInfos[0]
       }
     })

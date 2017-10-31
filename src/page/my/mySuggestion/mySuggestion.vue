@@ -29,7 +29,7 @@ export default {
   },
   created () {
     let self = this
-    this.teacherId = sessionStorage.getItem('studentId')
+    this.studentId = sessionStorage.getItem('studentId')
     this.$http.get('/tatuweb/studentSuggestions?studentId=' + self.studentId).then((response) => {
       // debugger
       this.suggestions = response.body.data.suggestions

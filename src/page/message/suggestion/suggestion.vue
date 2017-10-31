@@ -52,8 +52,8 @@ export default {
   created () {
     let self = this
     self.index = self.GetQueryString('index')
-    this.teacherId = sessionStorage.getItem('teacherId')
-    this.$http.get('/tatuweb/studentGetMsg?teacherId=' + self.teacherId).then((response) => {
+    this.studentId = sessionStorage.getItem('studentId')
+    this.$http.get('/tatuweb/studentGetMsg?studentId=' + self.studentId).then((response) => {
       // debugger
       this.complainFeedbacks = response.body.data.complainFeedbacks
       if(this.complainFeedbacks.length > 0){

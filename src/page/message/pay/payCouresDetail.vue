@@ -90,6 +90,13 @@ export default {
 
     this.endTime = new Date(parseInt(endTime) * 1000).toLocaleTimeString('chinese',{hour12:false})
     this.endTime = this.endTime.substr(0,this.endTime.length-3)
+    this.position = JSON.parse(sessionStorage.getItem('position'))
+    for(var i=0;i < this.position.length;i++){	
+		if(this.item.courseInfo.userId === this.position[i].userId){
+			this.item.courseInfo.userId = this.position[i].name
+		}
+  	}
+
   }
 }
 </script> 
@@ -185,10 +192,11 @@ h2{
 }
 .top-right img{
 	width: 1.48rem;
+	height: 1.48rem;
 	border-radius: 1.48rem;
 }
 .top-right .num{
-	margin-top: .1rem;
+	margin-top: .56rem;
 	color: #2cc17b;
 	font-size: .26rem;
 }
