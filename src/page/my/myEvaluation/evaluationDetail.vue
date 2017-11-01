@@ -68,6 +68,9 @@
 				<h3>{{evaluation.evaluates.studentEvaluate}}</h3>				
 			</div>
 		</div>
+		<div class="picContent"  v-for="item in evaluation.evaluates.teacherEvaImg">
+			<img :src="item">
+		</div>
 	</div>
 	<!--教学计划-->
 	 <div class="plan" style="background-color:#fff">
@@ -240,6 +243,16 @@ h2{
 	border-radius: 3rem;
 	margin-right: .16rem;
 	float: left;
+}
+.picContent{
+	width: 100%;
+	height: 1.48rem;
+	margin-top: .35rem;
+	padding-left: .56rem;
+}
+.picContent img{
+	width: 1.48rem;
+	height: 1.48rem;
 }
 /*------------------- 教学计划 plan  --------------------*/
 .plan{

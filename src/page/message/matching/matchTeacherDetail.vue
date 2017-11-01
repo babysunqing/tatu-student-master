@@ -172,6 +172,7 @@ h2{
 }
 .top-right img{
 	width: 1.48rem;
+	height: 1.48rem;
 	border-radius: 1.48rem;
 }
 .top-right .num{

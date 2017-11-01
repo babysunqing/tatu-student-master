@@ -32,15 +32,19 @@ export default {
     this.studentId = sessionStorage.getItem('studentId')
     this.$http.get('/tatuweb/studentSuggestions?studentId=' + self.studentId).then((response) => {
       // debugger
-      this.suggestions = response.body.data.suggestions
+      this.suggestions = response.body.data
       for (var i = 0; i < this.suggestions.length; i++) {
         if (this.suggestions[i].status === 'init') {
-          // debugger
           this.suggestions[i].status = '未处理'
         } else if (this.suggestions[i].status === 'dealing') {
           this.suggestions[i].status = '待处理'
         } else {
           this.suggestions[i].status = '已处理'
+        }
+        if(this.suggestions[i].type === 'complaint'){
+          this.suggestions[i].type = '申诉'
+        }else if(this.suggestions[i].type === 'suggestion'){
+          this.suggestions[i].type = '建议'
         }
       }
     })

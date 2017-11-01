@@ -37,7 +37,7 @@
     </router-link>
   </div>
   
-  <div class="msg-item" v-bind:class="{ 'display': isdisplay4, 'normal': normal }" >
+<!--   <div class="msg-item" v-bind:class="{ 'display': isdisplay4, 'normal': normal }" >
     <router-link to="/msgPlan">
       <img src="../../assets/icon_plan.png">
       <div class="msg-content">
@@ -46,7 +46,7 @@
         ，请尽快根据学生信息和学习目标，制定合理的教学计划。</div>
       </div>
     </router-link>
-  </div>
+  </div> -->
 
   <div class="msg-item" v-bind:class="{ 'display': isdisplay5, 'normal': normal1 }" >
     <img src="../../assets/icon_Withdrawal.png">
@@ -73,7 +73,7 @@ export default {
       isdisplay1:true,
       isdisplay2:true,
       isdisplay3:true,
-      isdisplay4:true,
+      // isdisplay4:true,
       normal: false,
       isdisplay5:false,
       normal1:true,
@@ -109,11 +109,11 @@ export default {
         self.normal = true
         self.needPayments = res.data.data.needPayments[0]
       }
-      if(self.plan.length > 0){
-        self.isdisplay4 = false
-        self.normal = true
-        self.plan = res.data.data.courseInfos[0]
-      }
+      // if(self.plan.length > 0){
+      //   self.isdisplay4 = false
+      //   self.normal = true
+      //   self.plan = res.data.data.courseInfos[0]
+      // }
     })
   },
   mounted (){

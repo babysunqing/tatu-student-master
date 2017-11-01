@@ -4,7 +4,7 @@
 		<div class="top-left">
 			<div class="title">
 				<div class="line"></div>
-				<h1>{{ item.teacherName }}·</h1>
+				<h1>{{ item.name }}·</h1>
 				<h2>{{ item.courseInfo.classType }}· </h2>
 				<h2>{{ item.courseInfo.subject }}</h2>
 			</div>			

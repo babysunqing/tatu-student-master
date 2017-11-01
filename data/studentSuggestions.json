@@ -1,8 +1,7 @@
 {
 	"code":0,
 	"errmsg":"ok",
-	"data":{
-		"suggestions":[
+	"data":[
 			{
 				"suggestionId":"1",
 				"suggestionContent":"我建议平台可以开设舞蹈、音乐、吉他、美术课程。",
@@ -27,6 +26,5 @@
 				"type":"申诉",
 				"handleSuggestion":""
 			}
-		]
-	}
+	]
 }

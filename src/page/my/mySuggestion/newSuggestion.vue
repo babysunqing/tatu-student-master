@@ -41,6 +41,7 @@ export default {
       stuJson.userId = this.userId
       stuJson.studentId = this.studentId
       stuJson.createTime = (new Date().getTime() / 1000).toFixed(0)
+      stuJson.createTime = parseInt(stuJson.createTime) 
       params.append('studentSuggestion', JSON.stringify(stuJson))
       if(stuJson.type === undefined ){ 
         alert('请选择建议申诉类型')
