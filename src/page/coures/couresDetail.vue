@@ -30,8 +30,6 @@
 		</div>			
 	</div>
 	<div class="clear"></div>
-	
-	
 	<!--教学计划-->
 	 <div class="plan" style="background-color:#fff">
 		<div class="title">
@@ -150,13 +148,12 @@ h2{
 }
 /*------------------- 教学计划 plan  --------------------*/
 .plan{
-	margin-top: .5rem;
-	margin-bottom: 1rem
+	margin-top: .4rem;
 }
 .plandetail{
 	clear: both;
 	margin-right: .3rem;
 	margin-left: .52rem;
-	line-height: .35rem
+	line-height: .4rem
 }
 </style>

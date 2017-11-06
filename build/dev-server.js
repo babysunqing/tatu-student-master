@@ -61,6 +61,11 @@ app.get('/tatuweb/getBackgroundInfo', function(req,res){
   res.json(getBackgroundInfo);
 })
 
+var userInfo = require('../data/userInfo.json')
+app.get('/tatuweb/wechat/userInfo', function(req,res){
+  res.json(userInfo);
+})
+
 app.use('/', apiRouter)  
 //mock
 

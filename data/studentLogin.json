@@ -20,7 +20,9 @@
 			"userId":"000",
 			"studentId": "001",
 			"goal":"学习目标！！！！！！！！！！",
-			"studyPlan":"学习计划！！！！！！！！！！！！！"
+			"studyPlan":"学习计划！！！！！！！！！！！！！",
+			"availTime":"[{"day":"星期三","timeOfDay":{"afternoon":true,"night":true,"morning":false}}]",
+			"allowTry":true
 		},
 		"period":"15",
 		"teacherNum":"2"

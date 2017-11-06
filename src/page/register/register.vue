@@ -19,7 +19,7 @@
 				
 			<li>
 				<span>性别:</span>			
-					<input type="radio" id="male" class="regular-radio"  name="sex" value="male" v-model='form.sex' v-validate="'required'"/>
+					<input type="radio" id="male" class="regular-radio"  name="sex" value="male" v-model='form.sex' />
 					<label for="male"></label>男
         	<input type="radio" id="female" name="sex"  class="regular-radio" value="female" v-model='form.sex' />
         	<label for="female" style="margin-left: .2rem"></label>女
@@ -48,6 +48,9 @@
 			</li>
 		    <li>
 		    	<input class="getCode" type="number" name="phoneNumber" placeholder="输入验证码" v-model='userInputNum'/>
+          <span id="formVee" v-show="errors.has('phoneNumber')" class="text-style" v-cloak>
+            <icon class="el-icon-circle-close"></icon>
+          </span>
 		    </li>	
 		</ul>	
 	</section>
@@ -270,7 +273,7 @@ export default {
   },
   data () {
     return {
-      headurl:'',
+      headimgurl:'',
       popup:false,
       gradeValue:[],
       stuGradeValue:[],
@@ -315,10 +318,20 @@ export default {
       userInputNum:'',
       userInputPostion:'',
       positionInfos:[], // 获取到的上课地点数组
-      form: {'availTime': [], 'userId': '189', 'allowTry': true,'headurl':''},
+      form: {
+        'classType':'',
+        'availTime': [], 
+        'userId': 'main', 
+        'allowTry': true,
+        'headurl':'',
+        'sex':'',
+        'grade':'',
+        'studyPlan':'',
+        'goal':''
+      },
       turnEng: {
       	'上午': 'morning',
-      	'中午': 'afternoon',
+      	'下午': 'afternoon',
       	'晚上': 'night'
       }
     }
@@ -438,7 +451,6 @@ export default {
     buildAvailTime: function(){
       // 清空数组
       this.form.availTime.splice(0,this.form.availTime.length)
-      // debugger
       // 构造数组
       for(var i=0; i< this.availTime.length; i++) {
         var day   = this.availTime[i].substring(0, 3)
@@ -477,14 +489,15 @@ export default {
     // --------------------点击注册------------------------------//
     register: function() {
       // 判断用户输入的验证码是否正确
-      if(this.identifyingCode === this.userInputNum){
+      if(this.identifyingCode != this.userInputNum){
+        alert("验证码填写错误！")
+      }
       	//获取 课程名
       	var str = document.getElementsByName('subject')
 		    var subjectArray = str.length
 		    var subjects = ''
     		for (var i=0;i<subjectArray;i++){
-    		  if(str[i].checked == true)
-    		  {
+    		  if(str[i].checked == true){
     		    subjects += str[i].value + " "
     		  }
     	 }
@@ -514,29 +527,45 @@ export default {
         }else if(this.stuGradeValue[0] === '高三'){
           this.stuGradeValue[0] = 12
         }
-		    this.form.grade = JSON.parse(this.stuGradeValue)
-  	    let self = this
+        if(this.stuGradeValue.length > 0 ){
+          this.form.grade = JSON.parse(this.stuGradeValue[0])
+        }
   	    this.buildAvailTime()
+        this.form.headurl = this.headimgurl
   	    var params = new URLSearchParams()
   	    params.append('studentInfo', JSON.stringify(this.form))
-  	    axios({
-  	      method: 'post',
-  	      url: '/tatuweb/studentRegister',
-  	      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-  	      data: params
-  	    }).then(function (response) {
-          self.popupDoRegitser = false
-  	      window.location.href = '/tatuweb/index.html'   // 注册成功 回到首页
-          })
+        if(this.form.sex === ''){
+          alert("请选择性别！")
+        }else if(this.form.grade === ''){
+          alert("请选择就读年级！")
+        }else if(this.form.subject === ''){
+          alert("请选择学习科目！")
+        }else if(this.form.classType === ''){
+          alert("请选择课程类型！")
+        }else if(this.form.availTime.length < 1){
+          alert("请添加上课时间！")
+        }else if(this.form.goal === ''){
+          alert("请选填写学习目标！")
+        }else if(this.form.studyPlan === ''){
+          alert("请选填写学习计划！")
         }else{
-        	alert("验证码填写错误！")
-        }     
+          let self = this
+          this.popupDoRegitser =  true
+          axios({
+            method: 'post',
+            url: '/tatuweb/studentRegister',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: params
+          }).then(function (response) {
+            self.popupDoRegitser = false
+            window.location.href = '/tatuweb/index.html'   // 注册成功 回到首页
+          })
+        }       
     },
     DoRegitser: function () {
       //先进行校验
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.popupDoRegitser = true
           this.register()
         }else
           alert('请填写好完整信息')
@@ -565,8 +594,8 @@ export default {
       	}     	  
     })
     self.openid = sessionStorage.getItem('openid')
-    axios.post('/tatuweb/wechat/userInfo?openid=' + self.openid).then(function (res) {
-        self.headurl = res.data.data.headimgurl     
+    axios.get('/tatuweb/wechat/userInfo?openid=' + self.openid).then(function (res) {
+        self.headimgurl = res.data.data.headimgurl
     })
   },
   mounted () {
@@ -591,7 +620,6 @@ export default {
     self.form.registerTime = parseInt(new Date().getTime() / 1000)   
   },
   beforeDestroy(){
-    debugger
     sessionStorage.setItem("registerForm",JSON.stringify(this.form))
     sessionStorage.setItem("availTime",JSON.stringify(this.availTime))
     sessionStorage.setItem("position",this.userInputPostion === '' ? '拉动选择上课地点' :
@@ -608,11 +636,12 @@ export default {
 	-webkit-overflow-scrolling : touch; 
 }
 #formVee{
+  width: .4rem;
   position: absolute;
   top:.02rem;
   left: 4.7rem;
   color:  #d81315;
-  font-size: .2rem
+  font-size: .2rem;
 }
 #formVeetel{
   position: absolute;
@@ -721,7 +750,7 @@ section span{
 }
 section input{
 	outline:none;
-	width: 65%;
+	width: 50%;
 }
 .bottom{margin: .2rem .52rem;}
 .tixian{
@@ -841,7 +870,6 @@ p{
 .getCode{
   position: relative;
   left: 1.9rem;
-  top:-1.7rem;
 }
 /*------------------------------*/
 #sex{

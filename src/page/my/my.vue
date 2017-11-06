@@ -74,7 +74,6 @@ export default {
     let self = this
     this.openid = sessionStorage.getItem('openid')
     this.$http.get('/tatuweb/studentLogin?openid=' + self.openid).then((response) => {
-      // debugger
       this.data = response.body.data
       this.studentInfo = response.body.data.studentInfo
       sessionStorage.setItem('studentId', this.studentInfo.studentId)

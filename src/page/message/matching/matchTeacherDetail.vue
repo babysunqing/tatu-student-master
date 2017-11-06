@@ -189,6 +189,6 @@ h2{
 	clear: both;
 	margin-right: .3rem;
 	margin-left: .52rem;
-	line-height: .35rem
+	line-height: .4rem
 }
 </style>

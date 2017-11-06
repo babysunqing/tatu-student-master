@@ -39,27 +39,36 @@
 		<h1>学生得分</h1>
 	</div>
 	<div class="star">
-			<div class="item">
-				<p>互动积极性:</p>
-				<el-rate class="rate" v-model="stuValue1" disabled show-text text-color="#666"  ></el-rate>
-			</div>
-			<div  class="item">	
-				<p>课堂领悟力:</p>
-				<el-rate class="rate" v-model="stuValue2" disabled show-text text-color="#666"  ></el-rate>
-			</div>
-			<div  class="item">	
-				<p>专心程度:</p>
-				<el-rate class="rate" v-model="stuValue3" disabled show-text text-color="#666"  ></el-rate>
-			</div>
-			<div  class="item">	
-				<p>课堂表现:</p>
-				<el-rate class="rate" v-model="stuValue4" disabled show-text text-color="#666"  ></el-rate>
-			</div>	
-			<div  class="item">	
-			<p>详细评价：</p><h3>{{ teacherEvaluate }}</h3>
+		<div class="item">
+			<p>互动积极性:</p>
+			<el-rate class="rate" v-model="stuValue1" disabled show-text text-color="#666"  ></el-rate>
 		</div>
+		<div  class="item">	
+			<p>课堂领悟力:</p>
+			<el-rate class="rate" v-model="stuValue2" disabled show-text text-color="#666"  ></el-rate>
 		</div>
-	
+		<div  class="item">	
+			<p>专心程度:</p>
+			<el-rate class="rate" v-model="stuValue3" disabled show-text text-color="#666"  ></el-rate>
+		</div>
+		<div  class="item">	
+			<p>课堂表现:</p>
+			<el-rate class="rate" v-model="stuValue4" disabled show-text text-color="#666"  ></el-rate>
+		</div>	
+		<div  class="item"  style="height:auto;line-height:.4rem;word-wrap:break-word">	
+			<p>详细评价：</p>
+			<h3>{{ teacherEvaluate }}</h3>
+		</div>
+	</div>
+
+	<div class="picContent">
+		<div class="item" v-for="(i,index) in teacherEvaImg">
+			<img :src="i" @click="alertImg(index)">
+		</div>
+	</div>
+	<mt-popup v-model="popupVisible"  popup-transition="popup-fade">
+		<img id="bigimg" :src="img">
+ 	</mt-popup>
 	<div class="title" style="margin-top:.5rem">
 		<div class="line"></div>
 		<h1>老师得分</h1>
@@ -85,13 +94,13 @@
 			<p>准时程度：</p>
 			<el-rate class="rate" v-model="value5" disabled show-text text-color="#666"  ></el-rate>
 		</div>	
-		<div  class="item">	
-			<p>详细评价：</p><h3>{{ studentEvaluate }}</h3>
+		<div class="item" style="height:auto;line-height:.4rem;word-wrap:break-word">	
+			<p>详细评价：</p>
+			<h3>{{ studentEvaluate }}</h3>
 		</div>
 	</div>
 
-	<!--教学计划-->
-	 <div class="plan" style="background-color:#fff">
+	<div class="plan">
 		<div class="title">
 			<div class="line"></div>
 			<h1>教学计划</h1>
@@ -100,6 +109,7 @@
 			<p>{{ item.courseInfo.content }}</p>
 		</div>
 	</div>
+
 </div>	
 </template>
 
@@ -112,6 +122,7 @@ export default {
   },
   data () {
     return {
+      popupVisible:false,
       value1: 0,
       value2: 0,
       value3: 0,
@@ -123,10 +134,12 @@ export default {
       stuValue4: 0,
       studentEvaluate:'暂无评价！',
       teacherEvaluate:'暂无评价！',
-      classes: []
+      classes: [],
+      teacherEvaImg:[]
     }
   },
   created () {
+  	// debugger
     this.item = this.$route.params.item
     this.checkin = this.$route.params.checkin
     
@@ -153,11 +166,17 @@ export default {
 			    this.stuValue2 = this.item.evaluates[i].teacherEvaTwo
 			    this.stuValue3 = this.item.evaluates[i].teacherEvaThree
 			    this.stuValue4 = this.item.evaluates[i].teacherEvaFour
+			    if(this.item.evaluates[i].teacherEvaImg != '')
+			   	  this.teacherEvaImg = this.item.evaluates[i].teacherEvaImg
     		}
     	}
-    }		
-    
-    
+    }
+  },
+  methods: {
+  	alertImg: function(index) {
+        this.popupVisible = true
+        this.img = this.teacherEvaImg[index]
+    }
   }
 }
 </script> 
@@ -177,7 +196,10 @@ export default {
 }
 .star{
 	clear: both;
-	margin-left: .52rem;
+	width: 100%;
+	padding-left: .52rem;
+	padding-bottom: .2rem;
+	height: auto;
 }
 .rate{	
 	width: 4rem;
@@ -199,6 +221,8 @@ export default {
 .star h3{
 	font-size: .28rem;
 	color: #666;
+	word-wrap: break-word;
+	margin-right: .5rem
 }
 .line{
 	width: .06rem;
@@ -271,5 +295,27 @@ h2{
 	margin-right: .3rem;
 	margin-left: .52rem;
 	line-height: .35rem
+}
+.plandetail p{
+	line-height: .4rem
+}
+.picContent{
+	width: 100%;
+	height: auto;
+	padding-left: .5rem;
+}
+.picContent .item{
+	float: left;
+	width: 2rem;
+	height: auto;
+}
+.picContent img{
+	width: 1.48rem;
+	height: 1.48rem;
+	margin-bottom: .35rem
+}
+#bigimg{
+	width: 6rem;
+	height: 6rem;
 }
 </style>

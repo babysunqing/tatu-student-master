@@ -63,22 +63,19 @@
 				<p>准时程度：</p>
 				<el-rate class="rate" v-model="value5" disabled show-text text-color="#666"  ></el-rate>
 			</div>	
-			<div  class="item">	
+			<div class="item"  style="height:auto;line-height:.4rem;word-wrap:break-word">	
 				<p>详细评价: </p>
 				<h3>{{evaluation.evaluates.studentEvaluate}}</h3>				
 			</div>
 		</div>
-		<div class="picContent"  v-for="item in evaluation.evaluates.teacherEvaImg">
-			<img :src="item">
-		</div>
 	</div>
 	<!--教学计划-->
-	 <div class="plan" style="background-color:#fff">
+	 <div class="plan"
 		<div class="title">
 			<div class="line"></div>
 			<h1>教学计划</h1>						
 		</div>
-		 <div class="plandetail" style="margin-bottom:1rem"> 
+		 <div class="plandetail"> 
 			<p>{{ evaluation.courseInfo.content }}</p>
 		</div>
 	</div>
@@ -222,6 +219,7 @@ h2{
 .star h3{
 	font-size: .28rem;
 	color: #666;
+	margin-right: .2rem
 }
 .starContent{
 	background-color: #fff;
@@ -244,16 +242,6 @@ h2{
 	margin-right: .16rem;
 	float: left;
 }
-.picContent{
-	width: 100%;
-	height: 1.48rem;
-	margin-top: .35rem;
-	padding-left: .56rem;
-}
-.picContent img{
-	width: 1.48rem;
-	height: 1.48rem;
-}
 /*------------------- 教学计划 plan  --------------------*/
 .plan{
 	margin-top: .5rem;
@@ -267,8 +255,10 @@ h2{
 }
 .plandetail{
 	clear: both;
+	height: auto;
 	margin-right: .3rem;
 	margin-left: .52rem;
-	line-height: .35rem;
+	padding-bottom: .2rem;
+	line-height: .4rem;
 }
 </style>

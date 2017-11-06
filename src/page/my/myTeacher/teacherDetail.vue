@@ -53,8 +53,9 @@
 			<p>准时程度：</p>
 			<el-rate class="rate" v-model="item.teacherInfo.evaAveFive" disabled show-text text-color="#666"  ></el-rate>
 		</div>	
-		<div  class="item">	
-			<p>详细评价：</p><h3>{{ item.teacherInfo.teacherEvaluate }}</h3>
+		<div  class="item" style="height:auto;line-height:.4rem;">	
+			<p>详细评价：</p>
+			<h3>{{ item.teacherInfo.teacherEvaluate }}</h3>
 		</div>
 	</div>
 	
@@ -129,6 +130,7 @@ export default {
 .star h3{
 	font-size: .28rem;
 	color: #666;
+	margin-right: .2rem
 }
 .line{
 	width: .06rem;
@@ -201,7 +203,7 @@ h2{
 	clear: both;
 	margin-right: .3rem;
 	margin-left: .52rem;
-	line-height: .35rem
+	line-height: .4rem
 }
 </style>
 

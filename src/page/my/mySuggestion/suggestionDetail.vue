@@ -121,15 +121,15 @@ h2{
 }
 .contentDetail{
 	clear: both;
-	margin-right: .3rem;
-	margin-left: .52rem;
-	line-height: .35rem
+	padding-left: .52rem;
+	line-height: .4rem
 }
 .contentDetail p{
 	color: #666;
 	font-size: .28rem;
-	width: 90%;
 	clear: both;
+	word-wrap: break-word;
+	margin-right: .2rem
 }
 </style>
 

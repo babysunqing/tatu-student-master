@@ -37,14 +37,14 @@
 			<div class="line"></div>
 			<h1>教学计划</h1>						
 		</div>
-		 <div class="plandetail" style="margin-bottom:1rem"> 
+		 <div class="plandetail"> 
 			<p>{{ noEvaluation.courseInfo.content }}</p>
 		</div>
 	</div>
-	<router-link :to="{name: 'evaluation', params: {courseId: noEvaluation.courseInfo.courseId,period: noEvaluation.checkins.period}}" >
-	<div class="bottom">
-		我要评价
-	</div>
+	<router-link :to="{name: 'evaluation', params: {noEvaluation: noEvaluation}}" >
+		<div class="bottom">
+			我要评价
+		</div>
 	</router-link>
 	<router-view></router-view>
 </div>
@@ -196,13 +196,14 @@ h2{
 }
 /*------------------- 教学计划 plan  --------------------*/
 .plan{
-	margin-top: .5rem;
+	margin-top: .3rem;
 }
 .plandetail{
 	clear: both;
 	margin-right: .3rem;
 	margin-left: .52rem;
-	line-height: .35rem;
+	margin-bottom: .2rem;
+	line-height: .4rem;
 }
 .bottom{
 	width: 100%;

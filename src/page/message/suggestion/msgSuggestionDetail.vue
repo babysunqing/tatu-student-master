@@ -53,7 +53,10 @@
 				<el-rate class="rate" v-model="item.evaluateRecord.teacherEvaLineFour" disabled show-text text-color="#666"  ></el-rate>
 			</div>
 			<div  class="item evaluate">	
-			<p>详细评价：</p><h3>{{ item.evaluateRecord.teacherEvaluate }}</h3>
+			<p>详细评价：</p>
+			<h3>
+				{{ item.evaluateRecord.teacherEvaluate }}
+			</h3>
 		</div>	
 		</div>
 	
@@ -83,7 +86,8 @@
 			<el-rate class="rate" v-model="item.evaluateRecord.studentEvaLineFive" disabled show-text text-color="#666"  ></el-rate>
 		</div>	
 		<div  class="item evaluate">	
-			<p>详细评价：</p><h3>{{ item.evaluateRecord.studentEvaluate }}</h3>
+			<p>详细评价：</p>
+			<h3>{{ item.evaluateRecord.studentEvaluate }}</h3>
 		</div>
 	</div>
 
@@ -154,6 +158,7 @@ export default {
 	width: 100%;
 	height: .17rem;
 	margin-top: .38rem;
+	line-height: .4rem
 }
 .evaluate{
 	height: auto;
@@ -234,6 +239,7 @@ h2{
 	clear: both;
 	margin-right: .3rem;
 	margin-left: .52rem;
-	line-height: .35rem
+	line-height: .35rem;
+	line-height: .4rem
 }
 </style>

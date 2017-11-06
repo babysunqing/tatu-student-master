@@ -27,6 +27,7 @@ import teacherDetail from './page/my/myTeacher/teacherDetail.vue'
 import myEvaluation from './page/my/myEvaluation/myEvaluation.vue'
 import evaluationDetail from './page/my/myEvaluation/evaluationDetail.vue'
 import noEvaluationDetail from './page/my/myEvaluation/noEvaluationDetail.vue'
+import evaluation from './page/my/myEvaluation/evaluation.vue'
 
 import myScore from './page/my/myScore/myScore.vue'
 import mySuggestion from './page/my/mySuggestion/mySuggestion.vue'
@@ -163,6 +164,11 @@ const routes = [
     name:'noEvaluationDetail',
     path: '/noEvaluationDetail/:item',       // 我的评价
     component: noEvaluationDetail
+  },
+  {
+    name:'evaluation',
+    path: '/evaluation/:noEvaluation',       // 我的评价
+    component: evaluation
   },
   {
     path: '/myScore',       // 我的评分
